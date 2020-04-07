@@ -1,0 +1,74 @@
+FUNCTION_BLOCK autoMPG6
+
+	VAR_INPUT
+		Displacement: real;
+		Horsepower: real;
+		Weight: real;
+		Acceleration: real;
+		Modelyear: real;
+	END_VAR
+
+	VAR_OUTPUT
+		Mpg: real;
+	END_VAR
+
+	FUZZIFY Displacement
+		TERM BAIXA := (68.0, 1) (68.0, 1) (358.2499996985711, 0) ;
+		TERM MEDIA := (68.0, 0) (358.2499996985711, 1) (455.0, 0) ;
+		TERM ALTA  := (358.2499996985711, 0) (455.0, 1) (455.0, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY Horsepower
+		TERM BAIXA := (46, 1) (46, 1) (123.00393534700535, 0) ;
+		TERM MEDIA := (46, 0) (123.00393534700535, 1) (230, 0) ;
+		TERM ALTA  := (123.00393534700535, 0) (230, 1) (230, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY Weight
+		TERM BAIXA := (1613, 1) (1613, 1) (3041.138848479496, 0) ;
+		TERM MEDIA := (1613, 0) (3041.138848479496, 1) (5140, 0) ;
+		TERM ALTA  := (3041.138848479496, 0) (5140, 1) (5140, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY Acceleration
+		TERM BAIXA := (8.0, 1) (8.0, 1) (19.595828270743798, 0) ;
+		TERM MEDIA := (8.0, 0) (19.595828270743798, 1) (24.8, 0) ;
+		TERM ALTA  := (19.595828270743798, 0) (24.8, 1) (24.8, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY Modelyear
+		TERM BAIXA := (70, 1) (70, 1) (76.67262076462632, 0) ;
+		TERM MEDIA := (70, 0) (76.67262076462632, 1) (82, 0) ;
+		TERM ALTA  := (76.67262076462632, 0) (82, 1) (82, 1) ;
+	END_FUZZIFY
+
+	DEFUZZIFY Mpg
+		TERM BAIXO := (9.0, 1) (9.0, 1) (27.8, 0) ;
+		TERM MEDIO := (9.0, 0) (27.8, 1) (46.6, 0) ;
+		TERM ALTO  := (27.8, 0) (46.6, 1) (46.6, 1) ;
+
+		METHOD : COG;
+		DEFAULT := 0;
+	END_DEFUZZIFY
+
+	RULEBLOCK No1 
+		AND : MIN; 
+		ACT : MIN; 
+		ACCU : MAX; 
+
+		RULE 1 : IF Displacement IS BAIXA AND Horsepower IS MEDIA AND Weight IS MEDIA AND Acceleration IS MEDIA AND Modelyear IS BAIXA THEN Mpg IS BAIXO;
+ 		RULE 2 : IF Displacement IS BAIXA AND Horsepower IS BAIXA AND Weight IS BAIXA AND Acceleration IS MEDIA AND Modelyear IS ALTA THEN Mpg IS ALTO;
+ 		RULE 3 : IF Displacement IS MEDIA AND Horsepower IS MEDIA AND Weight IS MEDIA AND Acceleration IS BAIXA AND Modelyear IS BAIXA THEN Mpg IS BAIXO;
+ 		RULE 4 : IF Displacement IS MEDIA AND Horsepower IS MEDIA AND Weight IS ALTA AND Acceleration IS ALTA AND Modelyear IS ALTA THEN Mpg IS MEDIO;
+ 		RULE 5 : IF Displacement IS MEDIA AND Horsepower IS MEDIA AND Weight IS MEDIA AND Acceleration IS BAIXA AND Modelyear IS MEDIA THEN Mpg IS BAIXO;
+ 		RULE 6 : IF Displacement IS MEDIA AND Horsepower IS MEDIA AND Weight IS BAIXA AND Acceleration IS MEDIA AND Modelyear IS MEDIA THEN Mpg IS MEDIO;
+ 		RULE 7 : IF Displacement IS BAIXA AND Horsepower IS BAIXA AND Weight IS BAIXA AND Acceleration IS MEDIA AND Modelyear IS BAIXA THEN Mpg IS MEDIO;
+ 		RULE 8 : IF Displacement IS MEDIA AND Horsepower IS BAIXA AND Weight IS BAIXA AND Acceleration IS MEDIA AND Modelyear IS BAIXA THEN Mpg IS BAIXO;
+ 		RULE 9 : IF Displacement IS MEDIA AND Horsepower IS MEDIA AND Weight IS MEDIA AND Acceleration IS BAIXA AND Modelyear IS ALTA THEN Mpg IS BAIXO;
+ 		RULE 10 : IF Displacement IS ALTA AND Horsepower IS MEDIA AND Weight IS MEDIA AND Acceleration IS BAIXA AND Modelyear IS BAIXA THEN Mpg IS BAIXO;
+ 
+
+
+	END_RULEBLOCK 
+
+END_FUNCTION_BLOCK 

@@ -1,0 +1,152 @@
+FUNCTION_BLOCK ANALCAT
+
+	VAR_INPUT
+		Actions_taken: real;
+		Liberal: real;
+		Unconstitutional: real;
+		Precedent_alteration: real;
+		Unanimous: real;
+		Year_of_decision: real;
+		Lower_court_disagreement: real;
+	END_VAR
+
+	VAR_OUTPUT
+		Log_exposure: real;
+	END_VAR
+
+	FUZZIFY Actions_taken
+		TERM BAIXA := (0.0, 1) (0.0, 1) (5.5, 0) ;
+		TERM MEDIA := (0.0, 0) (5.5, 1) (11.0, 0) ;
+		TERM ALTA  := (5.5, 0) (11.0, 1) (11.0, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY Liberal
+		TERM BAIXA := (0.0, 1) (0.0, 1) (0.5, 0) ;
+		TERM MEDIA := (0.0, 0) (0.5, 1) (1.0, 0) ;
+		TERM ALTA  := (0.5, 0) (1.0, 1) (1.0, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY Unconstitutional
+		TERM BAIXA := (0.0, 1) (0.0, 1) (0.5, 0) ;
+		TERM MEDIA := (0.0, 0) (0.5, 1) (1.0, 0) ;
+		TERM ALTA  := (0.5, 0) (1.0, 1) (1.0, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY Precedent_alteration
+		TERM BAIXA := (0.0, 1) (0.0, 1) (0.5, 0) ;
+		TERM MEDIA := (0.0, 0) (0.5, 1) (1.0, 0) ;
+		TERM ALTA  := (0.5, 0) (1.0, 1) (1.0, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY Unanimous
+		TERM BAIXA := (0.0, 1) (0.0, 1) (0.5, 0) ;
+		TERM MEDIA := (0.0, 0) (0.5, 1) (1.0, 0) ;
+		TERM ALTA  := (0.5, 0) (1.0, 1) (1.0, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY Year_of_decision
+		TERM BAIXA := (1953.0, 1) (1953.0, 1) (1970.5, 0) ;
+		TERM MEDIA := (1953.0, 0) (1970.5, 1) (1988.0, 0) ;
+		TERM ALTA  := (1970.5, 0) (1988.0, 1) (1988.0, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY Lower_court_disagreement
+		TERM BAIXA := (0.0, 1) (0.0, 1) (0.5, 0) ;
+		TERM MEDIA := (0.0, 0) (0.5, 1) (1.0, 0) ;
+		TERM ALTA  := (0.5, 0) (1.0, 1) (1.0, 1) ;
+	END_FUZZIFY
+
+	DEFUZZIFY Log_exposure
+		TERM BAIXO := (0.0, 1) (0.0, 1) (1.15, 0) ;
+		TERM MEDIO := (0.0, 0) (1.15, 1) (2.3, 0) ;
+		TERM ALTO  := (1.15, 0) (2.3, 1) (2.3, 1) ;
+
+		METHOD : COG;
+		DEFAULT := 0;
+	END_DEFUZZIFY
+
+	RULEBLOCK No1 
+		AND : MIN; 
+		ACT : MIN; 
+		ACCU : MAX; 
+
+		RULE 1 : IF Actions_taken IS BAIXA AND Liberal IS ALTA AND Unconstitutional IS ALTA AND Precedent_alteration IS BAIXA AND Unanimous IS BAIXA AND Year_of_decision IS MEDIA AND Lower_court_disagreement IS BAIXA THEN Log_exposure IS ALTO;
+ 		RULE 2 : IF Actions_taken IS BAIXA AND Liberal IS BAIXA AND Unconstitutional IS BAIXA AND Precedent_alteration IS BAIXA AND Unanimous IS ALTA AND Year_of_decision IS ALTA AND Lower_court_disagreement IS BAIXA THEN Log_exposure IS BAIXO;
+ 		RULE 3 : IF Actions_taken IS BAIXA AND Liberal IS ALTA AND Unconstitutional IS ALTA AND Precedent_alteration IS BAIXA AND Unanimous IS BAIXA AND Year_of_decision IS MEDIA AND Lower_court_disagreement IS ALTA THEN Log_exposure IS ALTO;
+ 		RULE 4 : IF Actions_taken IS BAIXA AND Liberal IS BAIXA AND Unconstitutional IS BAIXA AND Precedent_alteration IS BAIXA AND Unanimous IS BAIXA AND Year_of_decision IS MEDIA AND Lower_court_disagreement IS BAIXA THEN Log_exposure IS ALTO;
+ 		RULE 5 : IF Actions_taken IS BAIXA AND Liberal IS ALTA AND Unconstitutional IS ALTA AND Precedent_alteration IS BAIXA AND Unanimous IS ALTA AND Year_of_decision IS MEDIA AND Lower_court_disagreement IS ALTA THEN Log_exposure IS ALTO;
+ 		RULE 6 : IF Actions_taken IS BAIXA AND Liberal IS BAIXA AND Unconstitutional IS BAIXA AND Precedent_alteration IS BAIXA AND Unanimous IS BAIXA AND Year_of_decision IS ALTA AND Lower_court_disagreement IS BAIXA THEN Log_exposure IS BAIXO;
+ 		RULE 7 : IF Actions_taken IS BAIXA AND Liberal IS ALTA AND Unconstitutional IS BAIXA AND Precedent_alteration IS BAIXA AND Unanimous IS ALTA AND Year_of_decision IS MEDIA AND Lower_court_disagreement IS BAIXA THEN Log_exposure IS ALTO;
+ 		RULE 8 : IF Actions_taken IS BAIXA AND Liberal IS ALTA AND Unconstitutional IS BAIXA AND Precedent_alteration IS BAIXA AND Unanimous IS BAIXA AND Year_of_decision IS BAIXA AND Lower_court_disagreement IS BAIXA THEN Log_exposure IS ALTO;
+ 		RULE 9 : IF Actions_taken IS BAIXA AND Liberal IS ALTA AND Unconstitutional IS BAIXA AND Precedent_alteration IS BAIXA AND Unanimous IS BAIXA AND Year_of_decision IS MEDIA AND Lower_court_disagreement IS BAIXA THEN Log_exposure IS ALTO;
+ 		RULE 10 : IF Actions_taken IS BAIXA AND Liberal IS BAIXA AND Unconstitutional IS BAIXA AND Precedent_alteration IS BAIXA AND Unanimous IS BAIXA AND Year_of_decision IS ALTA AND Lower_court_disagreement IS ALTA THEN Log_exposure IS BAIXO;
+ 		RULE 11 : IF Actions_taken IS BAIXA AND Liberal IS BAIXA AND Unconstitutional IS BAIXA AND Precedent_alteration IS BAIXA AND Unanimous IS BAIXA AND Year_of_decision IS BAIXA AND Lower_court_disagreement IS ALTA THEN Log_exposure IS ALTO;
+ 		RULE 12 : IF Actions_taken IS BAIXA AND Liberal IS ALTA AND Unconstitutional IS BAIXA AND Precedent_alteration IS BAIXA AND Unanimous IS ALTA AND Year_of_decision IS ALTA AND Lower_court_disagreement IS BAIXA THEN Log_exposure IS BAIXO;
+ 		RULE 13 : IF Actions_taken IS BAIXA AND Liberal IS ALTA AND Unconstitutional IS BAIXA AND Precedent_alteration IS BAIXA AND Unanimous IS ALTA AND Year_of_decision IS ALTA AND Lower_court_disagreement IS ALTA THEN Log_exposure IS BAIXO;
+ 		RULE 14 : IF Actions_taken IS BAIXA AND Liberal IS ALTA AND Unconstitutional IS BAIXA AND Precedent_alteration IS BAIXA AND Unanimous IS BAIXA AND Year_of_decision IS MEDIA AND Lower_court_disagreement IS ALTA THEN Log_exposure IS ALTO;
+ 		RULE 15 : IF Actions_taken IS BAIXA AND Liberal IS BAIXA AND Unconstitutional IS BAIXA AND Precedent_alteration IS BAIXA AND Unanimous IS ALTA AND Year_of_decision IS MEDIA AND Lower_court_disagreement IS ALTA THEN Log_exposure IS ALTO;
+ 		RULE 16 : IF Actions_taken IS BAIXA AND Liberal IS ALTA AND Unconstitutional IS BAIXA AND Precedent_alteration IS BAIXA AND Unanimous IS ALTA AND Year_of_decision IS BAIXA AND Lower_court_disagreement IS ALTA THEN Log_exposure IS ALTO;
+ 		RULE 17 : IF Actions_taken IS BAIXA AND Liberal IS BAIXA AND Unconstitutional IS BAIXA AND Precedent_alteration IS BAIXA AND Unanimous IS BAIXA AND Year_of_decision IS MEDIA AND Lower_court_disagreement IS ALTA THEN Log_exposure IS ALTO;
+ 		RULE 18 : IF Actions_taken IS BAIXA AND Liberal IS BAIXA AND Unconstitutional IS BAIXA AND Precedent_alteration IS BAIXA AND Unanimous IS ALTA AND Year_of_decision IS MEDIA AND Lower_court_disagreement IS BAIXA THEN Log_exposure IS ALTO;
+ 		RULE 19 : IF Actions_taken IS BAIXA AND Liberal IS BAIXA AND Unconstitutional IS BAIXA AND Precedent_alteration IS BAIXA AND Unanimous IS ALTA AND Year_of_decision IS BAIXA AND Lower_court_disagreement IS BAIXA THEN Log_exposure IS ALTO;
+ 		RULE 20 : IF Actions_taken IS BAIXA AND Liberal IS ALTA AND Unconstitutional IS BAIXA AND Precedent_alteration IS BAIXA AND Unanimous IS BAIXA AND Year_of_decision IS ALTA AND Lower_court_disagreement IS BAIXA THEN Log_exposure IS BAIXO;
+ 		RULE 21 : IF Actions_taken IS BAIXA AND Liberal IS ALTA AND Unconstitutional IS ALTA AND Precedent_alteration IS BAIXA AND Unanimous IS ALTA AND Year_of_decision IS MEDIA AND Lower_court_disagreement IS BAIXA THEN Log_exposure IS ALTO;
+ 		RULE 22 : IF Actions_taken IS BAIXA AND Liberal IS BAIXA AND Unconstitutional IS BAIXA AND Precedent_alteration IS BAIXA AND Unanimous IS ALTA AND Year_of_decision IS ALTA AND Lower_court_disagreement IS ALTA THEN Log_exposure IS BAIXO;
+ 		RULE 23 : IF Actions_taken IS BAIXA AND Liberal IS BAIXA AND Unconstitutional IS BAIXA AND Precedent_alteration IS BAIXA AND Unanimous IS BAIXA AND Year_of_decision IS BAIXA AND Lower_court_disagreement IS BAIXA THEN Log_exposure IS ALTO;
+ 		RULE 24 : IF Actions_taken IS BAIXA AND Liberal IS ALTA AND Unconstitutional IS BAIXA AND Precedent_alteration IS BAIXA AND Unanimous IS ALTA AND Year_of_decision IS MEDIA AND Lower_court_disagreement IS ALTA THEN Log_exposure IS ALTO;
+ 		RULE 25 : IF Actions_taken IS BAIXA AND Liberal IS ALTA AND Unconstitutional IS BAIXA AND Precedent_alteration IS BAIXA AND Unanimous IS ALTA AND Year_of_decision IS BAIXA AND Lower_court_disagreement IS BAIXA THEN Log_exposure IS ALTO;
+ 		RULE 26 : IF Actions_taken IS BAIXA AND Liberal IS ALTA AND Unconstitutional IS ALTA AND Precedent_alteration IS BAIXA AND Unanimous IS BAIXA AND Year_of_decision IS BAIXA AND Lower_court_disagreement IS BAIXA THEN Log_exposure IS ALTO;
+ 		RULE 27 : IF Actions_taken IS MEDIA AND Liberal IS ALTA AND Unconstitutional IS BAIXA AND Precedent_alteration IS BAIXA AND Unanimous IS BAIXA AND Year_of_decision IS MEDIA AND Lower_court_disagreement IS BAIXA THEN Log_exposure IS ALTO;
+ 		RULE 28 : IF Actions_taken IS BAIXA AND Liberal IS ALTA AND Unconstitutional IS ALTA AND Precedent_alteration IS BAIXA AND Unanimous IS BAIXA AND Year_of_decision IS ALTA AND Lower_court_disagreement IS BAIXA THEN Log_exposure IS BAIXO;
+ 		RULE 29 : IF Actions_taken IS BAIXA AND Liberal IS ALTA AND Unconstitutional IS BAIXA AND Precedent_alteration IS BAIXA AND Unanimous IS BAIXA AND Year_of_decision IS ALTA AND Lower_court_disagreement IS ALTA THEN Log_exposure IS BAIXO;
+ 		RULE 30 : IF Actions_taken IS BAIXA AND Liberal IS BAIXA AND Unconstitutional IS BAIXA AND Precedent_alteration IS BAIXA AND Unanimous IS ALTA AND Year_of_decision IS BAIXA AND Lower_court_disagreement IS ALTA THEN Log_exposure IS ALTO;
+ 		RULE 31 : IF Actions_taken IS MEDIA AND Liberal IS BAIXA AND Unconstitutional IS BAIXA AND Precedent_alteration IS BAIXA AND Unanimous IS ALTA AND Year_of_decision IS MEDIA AND Lower_court_disagreement IS BAIXA THEN Log_exposure IS ALTO;
+ 		RULE 32 : IF Actions_taken IS BAIXA AND Liberal IS BAIXA AND Unconstitutional IS ALTA AND Precedent_alteration IS BAIXA AND Unanimous IS BAIXA AND Year_of_decision IS ALTA AND Lower_court_disagreement IS BAIXA THEN Log_exposure IS ALTO;
+ 		RULE 33 : IF Actions_taken IS BAIXA AND Liberal IS ALTA AND Unconstitutional IS ALTA AND Precedent_alteration IS BAIXA AND Unanimous IS BAIXA AND Year_of_decision IS ALTA AND Lower_court_disagreement IS ALTA THEN Log_exposure IS BAIXO;
+ 		RULE 34 : IF Actions_taken IS BAIXA AND Liberal IS ALTA AND Unconstitutional IS ALTA AND Precedent_alteration IS BAIXA AND Unanimous IS ALTA AND Year_of_decision IS BAIXA AND Lower_court_disagreement IS BAIXA THEN Log_exposure IS ALTO;
+ 		RULE 35 : IF Actions_taken IS BAIXA AND Liberal IS BAIXA AND Unconstitutional IS BAIXA AND Precedent_alteration IS ALTA AND Unanimous IS BAIXA AND Year_of_decision IS ALTA AND Lower_court_disagreement IS ALTA THEN Log_exposure IS MEDIO;
+ 		RULE 36 : IF Actions_taken IS BAIXA AND Liberal IS ALTA AND Unconstitutional IS BAIXA AND Precedent_alteration IS BAIXA AND Unanimous IS BAIXA AND Year_of_decision IS BAIXA AND Lower_court_disagreement IS ALTA THEN Log_exposure IS ALTO;
+ 		RULE 37 : IF Actions_taken IS BAIXA AND Liberal IS ALTA AND Unconstitutional IS ALTA AND Precedent_alteration IS ALTA AND Unanimous IS BAIXA AND Year_of_decision IS MEDIA AND Lower_court_disagreement IS BAIXA THEN Log_exposure IS ALTO;
+ 		RULE 38 : IF Actions_taken IS BAIXA AND Liberal IS BAIXA AND Unconstitutional IS BAIXA AND Precedent_alteration IS ALTA AND Unanimous IS BAIXA AND Year_of_decision IS MEDIA AND Lower_court_disagreement IS BAIXA THEN Log_exposure IS ALTO;
+ 		RULE 39 : IF Actions_taken IS MEDIA AND Liberal IS BAIXA AND Unconstitutional IS BAIXA AND Precedent_alteration IS BAIXA AND Unanimous IS BAIXA AND Year_of_decision IS MEDIA AND Lower_court_disagreement IS ALTA THEN Log_exposure IS ALTO;
+ 		RULE 40 : IF Actions_taken IS BAIXA AND Liberal IS ALTA AND Unconstitutional IS ALTA AND Precedent_alteration IS BAIXA AND Unanimous IS ALTA AND Year_of_decision IS ALTA AND Lower_court_disagreement IS BAIXA THEN Log_exposure IS BAIXO;
+ 		RULE 41 : IF Actions_taken IS BAIXA AND Liberal IS ALTA AND Unconstitutional IS ALTA AND Precedent_alteration IS BAIXA AND Unanimous IS ALTA AND Year_of_decision IS BAIXA AND Lower_court_disagreement IS ALTA THEN Log_exposure IS ALTO;
+ 		RULE 42 : IF Actions_taken IS MEDIA AND Liberal IS BAIXA AND Unconstitutional IS BAIXA AND Precedent_alteration IS BAIXA AND Unanimous IS ALTA AND Year_of_decision IS ALTA AND Lower_court_disagreement IS ALTA THEN Log_exposure IS ALTO;
+ 		RULE 43 : IF Actions_taken IS ALTA AND Liberal IS BAIXA AND Unconstitutional IS BAIXA AND Precedent_alteration IS BAIXA AND Unanimous IS BAIXA AND Year_of_decision IS MEDIA AND Lower_court_disagreement IS BAIXA THEN Log_exposure IS ALTO;
+ 		RULE 44 : IF Actions_taken IS MEDIA AND Liberal IS BAIXA AND Unconstitutional IS BAIXA AND Precedent_alteration IS BAIXA AND Unanimous IS BAIXA AND Year_of_decision IS MEDIA AND Lower_court_disagreement IS BAIXA THEN Log_exposure IS ALTO;
+ 		RULE 45 : IF Actions_taken IS ALTA AND Liberal IS ALTA AND Unconstitutional IS BAIXA AND Precedent_alteration IS BAIXA AND Unanimous IS BAIXA AND Year_of_decision IS ALTA AND Lower_court_disagreement IS BAIXA THEN Log_exposure IS MEDIO;
+ 		RULE 46 : IF Actions_taken IS MEDIA AND Liberal IS ALTA AND Unconstitutional IS BAIXA AND Precedent_alteration IS BAIXA AND Unanimous IS ALTA AND Year_of_decision IS MEDIA AND Lower_court_disagreement IS BAIXA THEN Log_exposure IS ALTO;
+ 		RULE 47 : IF Actions_taken IS BAIXA AND Liberal IS ALTA AND Unconstitutional IS BAIXA AND Precedent_alteration IS ALTA AND Unanimous IS BAIXA AND Year_of_decision IS MEDIA AND Lower_court_disagreement IS BAIXA THEN Log_exposure IS ALTO;
+ 		RULE 48 : IF Actions_taken IS MEDIA AND Liberal IS ALTA AND Unconstitutional IS BAIXA AND Precedent_alteration IS BAIXA AND Unanimous IS BAIXA AND Year_of_decision IS ALTA AND Lower_court_disagreement IS BAIXA THEN Log_exposure IS MEDIO;
+ 		RULE 49 : IF Actions_taken IS BAIXA AND Liberal IS BAIXA AND Unconstitutional IS ALTA AND Precedent_alteration IS ALTA AND Unanimous IS BAIXA AND Year_of_decision IS MEDIA AND Lower_court_disagreement IS BAIXA THEN Log_exposure IS ALTO;
+ 		RULE 50 : IF Actions_taken IS BAIXA AND Liberal IS ALTA AND Unconstitutional IS BAIXA AND Precedent_alteration IS ALTA AND Unanimous IS ALTA AND Year_of_decision IS MEDIA AND Lower_court_disagreement IS BAIXA THEN Log_exposure IS ALTO;
+ 		RULE 51 : IF Actions_taken IS MEDIA AND Liberal IS BAIXA AND Unconstitutional IS BAIXA AND Precedent_alteration IS BAIXA AND Unanimous IS BAIXA AND Year_of_decision IS ALTA AND Lower_court_disagreement IS ALTA THEN Log_exposure IS MEDIO;
+ 		RULE 52 : IF Actions_taken IS MEDIA AND Liberal IS BAIXA AND Unconstitutional IS BAIXA AND Precedent_alteration IS BAIXA AND Unanimous IS BAIXA AND Year_of_decision IS ALTA AND Lower_court_disagreement IS BAIXA THEN Log_exposure IS ALTO;
+ 		RULE 53 : IF Actions_taken IS BAIXA AND Liberal IS BAIXA AND Unconstitutional IS ALTA AND Precedent_alteration IS BAIXA AND Unanimous IS BAIXA AND Year_of_decision IS MEDIA AND Lower_court_disagreement IS BAIXA THEN Log_exposure IS ALTO;
+ 		RULE 54 : IF Actions_taken IS MEDIA AND Liberal IS ALTA AND Unconstitutional IS BAIXA AND Precedent_alteration IS BAIXA AND Unanimous IS ALTA AND Year_of_decision IS ALTA AND Lower_court_disagreement IS BAIXA THEN Log_exposure IS ALTO;
+ 		RULE 55 : IF Actions_taken IS BAIXA AND Liberal IS BAIXA AND Unconstitutional IS BAIXA AND Precedent_alteration IS ALTA AND Unanimous IS ALTA AND Year_of_decision IS ALTA AND Lower_court_disagreement IS ALTA THEN Log_exposure IS BAIXO;
+ 		RULE 56 : IF Actions_taken IS BAIXA AND Liberal IS BAIXA AND Unconstitutional IS BAIXA AND Precedent_alteration IS ALTA AND Unanimous IS BAIXA AND Year_of_decision IS ALTA AND Lower_court_disagreement IS BAIXA THEN Log_exposure IS MEDIO;
+ 		RULE 57 : IF Actions_taken IS MEDIA AND Liberal IS ALTA AND Unconstitutional IS ALTA AND Precedent_alteration IS BAIXA AND Unanimous IS ALTA AND Year_of_decision IS MEDIA AND Lower_court_disagreement IS BAIXA THEN Log_exposure IS ALTO;
+ 		RULE 58 : IF Actions_taken IS BAIXA AND Liberal IS ALTA AND Unconstitutional IS BAIXA AND Precedent_alteration IS ALTA AND Unanimous IS BAIXA AND Year_of_decision IS BAIXA AND Lower_court_disagreement IS BAIXA THEN Log_exposure IS ALTO;
+ 		RULE 59 : IF Actions_taken IS BAIXA AND Liberal IS BAIXA AND Unconstitutional IS BAIXA AND Precedent_alteration IS ALTA AND Unanimous IS ALTA AND Year_of_decision IS MEDIA AND Lower_court_disagreement IS BAIXA THEN Log_exposure IS ALTO;
+ 		RULE 60 : IF Actions_taken IS MEDIA AND Liberal IS BAIXA AND Unconstitutional IS BAIXA AND Precedent_alteration IS ALTA AND Unanimous IS BAIXA AND Year_of_decision IS MEDIA AND Lower_court_disagreement IS ALTA THEN Log_exposure IS ALTO;
+ 		RULE 61 : IF Actions_taken IS MEDIA AND Liberal IS ALTA AND Unconstitutional IS BAIXA AND Precedent_alteration IS BAIXA AND Unanimous IS ALTA AND Year_of_decision IS MEDIA AND Lower_court_disagreement IS ALTA THEN Log_exposure IS ALTO;
+ 		RULE 62 : IF Actions_taken IS BAIXA AND Liberal IS ALTA AND Unconstitutional IS BAIXA AND Precedent_alteration IS ALTA AND Unanimous IS BAIXA AND Year_of_decision IS ALTA AND Lower_court_disagreement IS BAIXA THEN Log_exposure IS MEDIO;
+ 		RULE 63 : IF Actions_taken IS BAIXA AND Liberal IS ALTA AND Unconstitutional IS ALTA AND Precedent_alteration IS ALTA AND Unanimous IS ALTA AND Year_of_decision IS BAIXA AND Lower_court_disagreement IS BAIXA THEN Log_exposure IS ALTO;
+ 		RULE 64 : IF Actions_taken IS BAIXA AND Liberal IS ALTA AND Unconstitutional IS ALTA AND Precedent_alteration IS BAIXA AND Unanimous IS BAIXA AND Year_of_decision IS BAIXA AND Lower_court_disagreement IS ALTA THEN Log_exposure IS ALTO;
+ 		RULE 65 : IF Actions_taken IS MEDIA AND Liberal IS BAIXA AND Unconstitutional IS BAIXA AND Precedent_alteration IS BAIXA AND Unanimous IS BAIXA AND Year_of_decision IS BAIXA AND Lower_court_disagreement IS BAIXA THEN Log_exposure IS ALTO;
+ 		RULE 66 : IF Actions_taken IS BAIXA AND Liberal IS ALTA AND Unconstitutional IS BAIXA AND Precedent_alteration IS ALTA AND Unanimous IS BAIXA AND Year_of_decision IS MEDIA AND Lower_court_disagreement IS ALTA THEN Log_exposure IS ALTO;
+ 		RULE 67 : IF Actions_taken IS BAIXA AND Liberal IS BAIXA AND Unconstitutional IS BAIXA AND Precedent_alteration IS ALTA AND Unanimous IS ALTA AND Year_of_decision IS ALTA AND Lower_court_disagreement IS BAIXA THEN Log_exposure IS MEDIO;
+ 		RULE 68 : IF Actions_taken IS BAIXA AND Liberal IS ALTA AND Unconstitutional IS ALTA AND Precedent_alteration IS ALTA AND Unanimous IS BAIXA AND Year_of_decision IS MEDIA AND Lower_court_disagreement IS ALTA THEN Log_exposure IS ALTO;
+ 		RULE 69 : IF Actions_taken IS BAIXA AND Liberal IS ALTA AND Unconstitutional IS ALTA AND Precedent_alteration IS ALTA AND Unanimous IS ALTA AND Year_of_decision IS MEDIA AND Lower_court_disagreement IS BAIXA THEN Log_exposure IS ALTO;
+ 		RULE 70 : IF Actions_taken IS BAIXA AND Liberal IS BAIXA AND Unconstitutional IS BAIXA AND Precedent_alteration IS ALTA AND Unanimous IS BAIXA AND Year_of_decision IS MEDIA AND Lower_court_disagreement IS ALTA THEN Log_exposure IS ALTO;
+ 		RULE 71 : IF Actions_taken IS BAIXA AND Liberal IS ALTA AND Unconstitutional IS ALTA AND Precedent_alteration IS BAIXA AND Unanimous IS ALTA AND Year_of_decision IS ALTA AND Lower_court_disagreement IS ALTA THEN Log_exposure IS BAIXO;
+ 		RULE 72 : IF Actions_taken IS BAIXA AND Liberal IS BAIXA AND Unconstitutional IS ALTA AND Precedent_alteration IS BAIXA AND Unanimous IS ALTA AND Year_of_decision IS ALTA AND Lower_court_disagreement IS ALTA THEN Log_exposure IS ALTO;
+ 		RULE 73 : IF Actions_taken IS BAIXA AND Liberal IS ALTA AND Unconstitutional IS ALTA AND Precedent_alteration IS ALTA AND Unanimous IS BAIXA AND Year_of_decision IS BAIXA AND Lower_court_disagreement IS BAIXA THEN Log_exposure IS ALTO;
+ 		RULE 74 : IF Actions_taken IS MEDIA AND Liberal IS BAIXA AND Unconstitutional IS BAIXA AND Precedent_alteration IS BAIXA AND Unanimous IS ALTA AND Year_of_decision IS ALTA AND Lower_court_disagreement IS BAIXA THEN Log_exposure IS ALTO;
+ 
+
+
+	END_RULEBLOCK 
+
+END_FUNCTION_BLOCK 

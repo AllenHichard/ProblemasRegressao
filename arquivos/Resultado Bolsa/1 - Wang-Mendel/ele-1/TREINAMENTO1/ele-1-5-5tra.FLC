@@ -1,0 +1,50 @@
+FUNCTION_BLOCK ele1
+
+	VAR_INPUT
+		Inhabitants: real;
+		Distance: real;
+	END_VAR
+
+	VAR_OUTPUT
+		Length: real;
+	END_VAR
+
+	FUZZIFY Inhabitants
+		TERM BAIXA := (1, 1) (1, 1) (160.5, 0) ;
+		TERM MEDIA := (1, 0) (160.5, 1) (320, 0) ;
+		TERM ALTA  := (160.5, 0) (320, 1) (320, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY Distance
+		TERM BAIXA := (60.0, 1) (60.0, 1) (866.664978, 0) ;
+		TERM MEDIA := (60.0, 0) (866.664978, 1) (1673.329956, 0) ;
+		TERM ALTA  := (866.664978, 0) (1673.329956, 1) (1673.329956, 1) ;
+	END_FUZZIFY
+
+	DEFUZZIFY Length
+		TERM BAIXO := (80.0, 1) (80.0, 1) (3877.5, 0) ;
+		TERM MEDIO := (80.0, 0) (3877.5, 1) (7675.0, 0) ;
+		TERM ALTO  := (3877.5, 0) (7675.0, 1) (7675.0, 1) ;
+
+		METHOD : COG;
+		DEFAULT := 0;
+	END_DEFUZZIFY
+
+	RULEBLOCK No1 
+		AND : MIN; 
+		ACT : MIN; 
+		ACCU : MAX; 
+
+		RULE 1 : IF Inhabitants IS BAIXA AND Distance IS BAIXA THEN Length IS BAIXO;
+ 		RULE 2 : IF Inhabitants IS BAIXA AND Distance IS MEDIA THEN Length IS MEDIO;
+ 		RULE 3 : IF Inhabitants IS MEDIA AND Distance IS MEDIA THEN Length IS ALTO;
+ 		RULE 4 : IF Inhabitants IS MEDIA AND Distance IS BAIXA THEN Length IS BAIXO;
+ 		RULE 5 : IF Inhabitants IS BAIXA AND Distance IS ALTA THEN Length IS MEDIO;
+ 		RULE 6 : IF Inhabitants IS ALTA AND Distance IS MEDIA THEN Length IS MEDIO;
+ 		RULE 7 : IF Inhabitants IS MEDIA AND Distance IS ALTA THEN Length IS MEDIO;
+ 
+
+
+	END_RULEBLOCK 
+
+END_FUNCTION_BLOCK 

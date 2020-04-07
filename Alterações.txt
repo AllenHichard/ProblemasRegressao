@@ -1,0 +1,4 @@
+Foram tiradas tres conduções das classes controlador , regras e testFuzzy
+/*if (aux[i].contains("-")) {
+                    aux[i] = aux[i].split("-")[0] + aux[i].split("-")[1];
+                }*/

@@ -1,0 +1,209 @@
+FUNCTION_BLOCK treasury
+
+	VAR_INPUT
+		YCMaturityRate1: real;
+		YCMortgageRate30: real;
+		MRateAuctionAverage3: real;
+		MRateSecondaryMarket3: real;
+		YCMaturityRate3: real;
+		YCMaturityRate5: real;
+		bankCredit: real;
+		currency: real;
+		demandDeposits: real;
+		federalFunds: real;
+		moneyStock: real;
+		checkableDeposits: real;
+		loansLeases: real;
+		savingsDeposits: real;
+		tradeCurrencies: real;
+	END_VAR
+
+	VAR_OUTPUT
+		MonthCDRate1: real;
+	END_VAR
+
+	FUZZIFY YCMaturityRate1
+		TERM BAIXA := (77.055, 1) (77.055, 1) (109.85000000000001, 0) ;
+		TERM MEDIA := (77.055, 0) (109.85000000000001, 1) (142.645, 0) ;
+		TERM ALTA  := (109.85000000000001, 0) (142.645, 1) (142.645, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY YCMortgageRate30
+		TERM BAIXA := (3.02, 1) (3.02, 1) (10.084999999999999, 0) ;
+		TERM MEDIA := (3.02, 0) (10.084999999999999, 1) (17.15, 0) ;
+		TERM ALTA  := (10.084999999999999, 0) (17.15, 1) (17.15, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY MRateAuctionAverage3
+		TERM BAIXA := (6.49, 1) (6.49, 1) (12.559999999999999, 0) ;
+		TERM MEDIA := (6.49, 0) (12.559999999999999, 1) (18.63, 0) ;
+		TERM ALTA  := (12.559999999999999, 0) (18.63, 1) (18.63, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY MRateSecondaryMarket3
+		TERM BAIXA := (2.67, 1) (2.67, 1) (9.71, 0) ;
+		TERM MEDIA := (2.67, 0) (9.71, 1) (16.75, 0) ;
+		TERM ALTA  := (9.71, 0) (16.75, 1) (16.75, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY YCMaturityRate3
+		TERM BAIXA := (2.69, 1) (2.69, 1) (9.725000000000001, 0) ;
+		TERM MEDIA := (2.69, 0) (9.725000000000001, 1) (16.76, 0) ;
+		TERM ALTA  := (9.725000000000001, 0) (16.76, 1) (16.76, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY YCMaturityRate5
+		TERM BAIXA := (4.09, 1) (4.09, 1) (10.28, 0) ;
+		TERM MEDIA := (4.09, 0) (10.28, 1) (16.47, 0) ;
+		TERM ALTA  := (10.28, 0) (16.47, 1) (16.47, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY bankCredit
+		TERM BAIXA := (4.17, 1) (4.17, 1) (10.149999999999999, 0) ;
+		TERM MEDIA := (4.17, 0) (10.149999999999999, 1) (16.13, 0) ;
+		TERM ALTA  := (10.149999999999999, 0) (16.13, 1) (16.13, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY currency
+		TERM BAIXA := (1130.9, 1) (1130.9, 1) (2970.05, 0) ;
+		TERM MEDIA := (1130.9, 0) (2970.05, 1) (4809.2, 0) ;
+		TERM ALTA  := (2970.05, 0) (4809.2, 1) (4809.2, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY demandDeposits
+		TERM BAIXA := (105.6, 1) (105.6, 1) (319.3, 0) ;
+		TERM MEDIA := (105.6, 0) (319.3, 1) (533, 0) ;
+		TERM ALTA  := (319.3, 0) (533, 1) (533, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY federalFunds
+		TERM BAIXA := (225.8, 1) (225.8, 1) (318.95000000000005, 0) ;
+		TERM MEDIA := (225.8, 0) (318.95000000000005, 1) (412.1, 0) ;
+		TERM ALTA  := (318.95000000000005, 0) (412.1, 1) (412.1, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY moneyStock
+		TERM BAIXA := (2.86, 1) (2.86, 1) (11.459999999999999, 0) ;
+		TERM MEDIA := (2.86, 0) (11.459999999999999, 1) (20.06, 0) ;
+		TERM ALTA  := (11.459999999999999, 0) (20.06, 1) (20.06, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY checkableDeposits
+		TERM BAIXA := (381.1, 1) (381.1, 1) (767.5999999999999, 0) ;
+		TERM MEDIA := (381.1, 0) (767.5999999999999, 1) (1154.1, 0) ;
+		TERM ALTA  := (767.5999999999999, 0) (1154.1, 1) (1154.1, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY loansLeases
+		TERM BAIXA := (269.9, 1) (269.9, 1) (536.65, 0) ;
+		TERM MEDIA := (269.9, 0) (536.65, 1) (803.4, 0) ;
+		TERM ALTA  := (536.65, 0) (803.4, 1) (803.4, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY savingsDeposits
+		TERM BAIXA := (868.1, 1) (868.1, 1) (2209.2000000000003, 0) ;
+		TERM MEDIA := (868.1, 0) (2209.2000000000003, 1) (3550.3, 0) ;
+		TERM ALTA  := (2209.2000000000003, 0) (3550.3, 1) (3550.3, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY tradeCurrencies
+		TERM BAIXA := (175.6, 1) (175.6, 1) (966.8499999999999, 0) ;
+		TERM MEDIA := (175.6, 0) (966.8499999999999, 1) (1758.1, 0) ;
+		TERM ALTA  := (966.8499999999999, 0) (1758.1, 1) (1758.1, 1) ;
+	END_FUZZIFY
+
+	DEFUZZIFY MonthCDRate1
+		TERM BAIXO := (3.02, 1) (3.02, 1) (11.89, 0) ;
+		TERM MEDIO := (3.02, 0) (11.89, 1) (20.76, 0) ;
+		TERM ALTO  := (11.89, 0) (20.76, 1) (20.76, 1) ;
+
+		METHOD : COG;
+		DEFAULT := 0;
+	END_DEFUZZIFY
+
+	RULEBLOCK No1 
+		AND : MIN; 
+		ACT : MIN; 
+		ACCU : MAX; 
+
+		RULE 1 : IF YCMaturityRate1 IS BAIXA AND YCMortgageRate30 IS MEDIA AND MRateAuctionAverage3 IS MEDIA AND MRateSecondaryMarket3 IS MEDIA AND YCMaturityRate3 IS MEDIA AND YCMaturityRate5 IS MEDIA AND bankCredit IS MEDIA AND currency IS MEDIA AND demandDeposits IS BAIXA AND federalFunds IS MEDIA AND moneyStock IS MEDIA AND checkableDeposits IS MEDIA AND loansLeases IS MEDIA AND savingsDeposits IS MEDIA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS MEDIO;
+ 		RULE 2 : IF YCMaturityRate1 IS MEDIA AND YCMortgageRate30 IS MEDIA AND MRateAuctionAverage3 IS MEDIA AND MRateSecondaryMarket3 IS MEDIA AND YCMaturityRate3 IS MEDIA AND YCMaturityRate5 IS MEDIA AND bankCredit IS MEDIA AND currency IS BAIXA AND demandDeposits IS BAIXA AND federalFunds IS BAIXA AND moneyStock IS MEDIA AND checkableDeposits IS BAIXA AND loansLeases IS BAIXA AND savingsDeposits IS BAIXA AND tradeCurrencies IS BAIXA THEN MonthCDRate1 IS MEDIO;
+ 		RULE 3 : IF YCMaturityRate1 IS BAIXA AND YCMortgageRate30 IS MEDIA AND MRateAuctionAverage3 IS MEDIA AND MRateSecondaryMarket3 IS MEDIA AND YCMaturityRate3 IS MEDIA AND YCMaturityRate5 IS MEDIA AND bankCredit IS MEDIA AND currency IS MEDIA AND demandDeposits IS MEDIA AND federalFunds IS MEDIA AND moneyStock IS MEDIA AND checkableDeposits IS MEDIA AND loansLeases IS MEDIA AND savingsDeposits IS MEDIA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS MEDIO;
+ 		RULE 4 : IF YCMaturityRate1 IS BAIXA AND YCMortgageRate30 IS BAIXA AND MRateAuctionAverage3 IS BAIXA AND MRateSecondaryMarket3 IS BAIXA AND YCMaturityRate3 IS BAIXA AND YCMaturityRate5 IS BAIXA AND bankCredit IS BAIXA AND currency IS MEDIA AND demandDeposits IS MEDIA AND federalFunds IS ALTA AND moneyStock IS BAIXA AND checkableDeposits IS ALTA AND loansLeases IS ALTA AND savingsDeposits IS MEDIA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS BAIXO;
+ 		RULE 5 : IF YCMaturityRate1 IS BAIXA AND YCMortgageRate30 IS BAIXA AND MRateAuctionAverage3 IS BAIXA AND MRateSecondaryMarket3 IS BAIXA AND YCMaturityRate3 IS BAIXA AND YCMaturityRate5 IS MEDIA AND bankCredit IS MEDIA AND currency IS MEDIA AND demandDeposits IS MEDIA AND federalFunds IS ALTA AND moneyStock IS BAIXA AND checkableDeposits IS ALTA AND loansLeases IS ALTA AND savingsDeposits IS MEDIA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS BAIXO;
+ 		RULE 6 : IF YCMaturityRate1 IS BAIXA AND YCMortgageRate30 IS BAIXA AND MRateAuctionAverage3 IS BAIXA AND MRateSecondaryMarket3 IS BAIXA AND YCMaturityRate3 IS BAIXA AND YCMaturityRate5 IS BAIXA AND bankCredit IS BAIXA AND currency IS ALTA AND demandDeposits IS MEDIA AND federalFunds IS ALTA AND moneyStock IS BAIXA AND checkableDeposits IS ALTA AND loansLeases IS MEDIA AND savingsDeposits IS ALTA AND tradeCurrencies IS ALTA THEN MonthCDRate1 IS BAIXO;
+ 		RULE 7 : IF YCMaturityRate1 IS BAIXA AND YCMortgageRate30 IS MEDIA AND MRateAuctionAverage3 IS MEDIA AND MRateSecondaryMarket3 IS MEDIA AND YCMaturityRate3 IS MEDIA AND YCMaturityRate5 IS MEDIA AND bankCredit IS MEDIA AND currency IS BAIXA AND demandDeposits IS BAIXA AND federalFunds IS BAIXA AND moneyStock IS MEDIA AND checkableDeposits IS BAIXA AND loansLeases IS BAIXA AND savingsDeposits IS BAIXA AND tradeCurrencies IS BAIXA THEN MonthCDRate1 IS MEDIO;
+ 		RULE 8 : IF YCMaturityRate1 IS BAIXA AND YCMortgageRate30 IS BAIXA AND MRateAuctionAverage3 IS BAIXA AND MRateSecondaryMarket3 IS BAIXA AND YCMaturityRate3 IS BAIXA AND YCMaturityRate5 IS BAIXA AND bankCredit IS BAIXA AND currency IS ALTA AND demandDeposits IS ALTA AND federalFunds IS MEDIA AND moneyStock IS BAIXA AND checkableDeposits IS ALTA AND loansLeases IS MEDIA AND savingsDeposits IS ALTA AND tradeCurrencies IS ALTA THEN MonthCDRate1 IS BAIXO;
+ 		RULE 9 : IF YCMaturityRate1 IS BAIXA AND YCMortgageRate30 IS BAIXA AND MRateAuctionAverage3 IS BAIXA AND MRateSecondaryMarket3 IS BAIXA AND YCMaturityRate3 IS BAIXA AND YCMaturityRate5 IS BAIXA AND bankCredit IS BAIXA AND currency IS ALTA AND demandDeposits IS ALTA AND federalFunds IS ALTA AND moneyStock IS BAIXA AND checkableDeposits IS ALTA AND loansLeases IS MEDIA AND savingsDeposits IS ALTA AND tradeCurrencies IS ALTA THEN MonthCDRate1 IS BAIXO;
+ 		RULE 10 : IF YCMaturityRate1 IS MEDIA AND YCMortgageRate30 IS MEDIA AND MRateAuctionAverage3 IS ALTA AND MRateSecondaryMarket3 IS MEDIA AND YCMaturityRate3 IS MEDIA AND YCMaturityRate5 IS MEDIA AND bankCredit IS MEDIA AND currency IS BAIXA AND demandDeposits IS BAIXA AND federalFunds IS BAIXA AND moneyStock IS MEDIA AND checkableDeposits IS BAIXA AND loansLeases IS BAIXA AND savingsDeposits IS BAIXA AND tradeCurrencies IS BAIXA THEN MonthCDRate1 IS MEDIO;
+ 		RULE 11 : IF YCMaturityRate1 IS MEDIA AND YCMortgageRate30 IS BAIXA AND MRateAuctionAverage3 IS MEDIA AND MRateSecondaryMarket3 IS BAIXA AND YCMaturityRate3 IS BAIXA AND YCMaturityRate5 IS BAIXA AND bankCredit IS BAIXA AND currency IS MEDIA AND demandDeposits IS BAIXA AND federalFunds IS MEDIA AND moneyStock IS BAIXA AND checkableDeposits IS MEDIA AND loansLeases IS MEDIA AND savingsDeposits IS MEDIA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS BAIXO;
+ 		RULE 12 : IF YCMaturityRate1 IS ALTA AND YCMortgageRate30 IS MEDIA AND MRateAuctionAverage3 IS MEDIA AND MRateSecondaryMarket3 IS MEDIA AND YCMaturityRate3 IS MEDIA AND YCMaturityRate5 IS MEDIA AND bankCredit IS MEDIA AND currency IS BAIXA AND demandDeposits IS BAIXA AND federalFunds IS BAIXA AND moneyStock IS MEDIA AND checkableDeposits IS BAIXA AND loansLeases IS BAIXA AND savingsDeposits IS BAIXA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS MEDIO;
+ 		RULE 13 : IF YCMaturityRate1 IS BAIXA AND YCMortgageRate30 IS BAIXA AND MRateAuctionAverage3 IS BAIXA AND MRateSecondaryMarket3 IS BAIXA AND YCMaturityRate3 IS BAIXA AND YCMaturityRate5 IS BAIXA AND bankCredit IS BAIXA AND currency IS ALTA AND demandDeposits IS MEDIA AND federalFunds IS ALTA AND moneyStock IS BAIXA AND checkableDeposits IS ALTA AND loansLeases IS MEDIA AND savingsDeposits IS ALTA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS BAIXO;
+ 		RULE 14 : IF YCMaturityRate1 IS BAIXA AND YCMortgageRate30 IS MEDIA AND MRateAuctionAverage3 IS MEDIA AND MRateSecondaryMarket3 IS BAIXA AND YCMaturityRate3 IS BAIXA AND YCMaturityRate5 IS MEDIA AND bankCredit IS MEDIA AND currency IS MEDIA AND demandDeposits IS BAIXA AND federalFunds IS MEDIA AND moneyStock IS BAIXA AND checkableDeposits IS MEDIA AND loansLeases IS MEDIA AND savingsDeposits IS MEDIA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS MEDIO;
+ 		RULE 15 : IF YCMaturityRate1 IS BAIXA AND YCMortgageRate30 IS BAIXA AND MRateAuctionAverage3 IS BAIXA AND MRateSecondaryMarket3 IS BAIXA AND YCMaturityRate3 IS BAIXA AND YCMaturityRate5 IS BAIXA AND bankCredit IS BAIXA AND currency IS MEDIA AND demandDeposits IS MEDIA AND federalFunds IS ALTA AND moneyStock IS BAIXA AND checkableDeposits IS ALTA AND loansLeases IS MEDIA AND savingsDeposits IS MEDIA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS BAIXO;
+ 		RULE 16 : IF YCMaturityRate1 IS MEDIA AND YCMortgageRate30 IS MEDIA AND MRateAuctionAverage3 IS MEDIA AND MRateSecondaryMarket3 IS MEDIA AND YCMaturityRate3 IS MEDIA AND YCMaturityRate5 IS MEDIA AND bankCredit IS MEDIA AND currency IS BAIXA AND demandDeposits IS BAIXA AND federalFunds IS MEDIA AND moneyStock IS BAIXA AND checkableDeposits IS MEDIA AND loansLeases IS MEDIA AND savingsDeposits IS BAIXA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS BAIXO;
+ 		RULE 17 : IF YCMaturityRate1 IS MEDIA AND YCMortgageRate30 IS ALTA AND MRateAuctionAverage3 IS MEDIA AND MRateSecondaryMarket3 IS ALTA AND YCMaturityRate3 IS ALTA AND YCMaturityRate5 IS MEDIA AND bankCredit IS MEDIA AND currency IS BAIXA AND demandDeposits IS BAIXA AND federalFunds IS BAIXA AND moneyStock IS ALTA AND checkableDeposits IS BAIXA AND loansLeases IS BAIXA AND savingsDeposits IS BAIXA AND tradeCurrencies IS BAIXA THEN MonthCDRate1 IS ALTO;
+ 		RULE 18 : IF YCMaturityRate1 IS BAIXA AND YCMortgageRate30 IS BAIXA AND MRateAuctionAverage3 IS BAIXA AND MRateSecondaryMarket3 IS BAIXA AND YCMaturityRate3 IS BAIXA AND YCMaturityRate5 IS BAIXA AND bankCredit IS BAIXA AND currency IS MEDIA AND demandDeposits IS MEDIA AND federalFunds IS MEDIA AND moneyStock IS BAIXA AND checkableDeposits IS ALTA AND loansLeases IS ALTA AND savingsDeposits IS MEDIA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS BAIXO;
+ 		RULE 19 : IF YCMaturityRate1 IS MEDIA AND YCMortgageRate30 IS ALTA AND MRateAuctionAverage3 IS ALTA AND MRateSecondaryMarket3 IS ALTA AND YCMaturityRate3 IS ALTA AND YCMaturityRate5 IS ALTA AND bankCredit IS ALTA AND currency IS BAIXA AND demandDeposits IS BAIXA AND federalFunds IS BAIXA AND moneyStock IS MEDIA AND checkableDeposits IS BAIXA AND loansLeases IS BAIXA AND savingsDeposits IS BAIXA AND tradeCurrencies IS BAIXA THEN MonthCDRate1 IS MEDIO;
+ 		RULE 20 : IF YCMaturityRate1 IS BAIXA AND YCMortgageRate30 IS BAIXA AND MRateAuctionAverage3 IS BAIXA AND MRateSecondaryMarket3 IS BAIXA AND YCMaturityRate3 IS BAIXA AND YCMaturityRate5 IS BAIXA AND bankCredit IS MEDIA AND currency IS MEDIA AND demandDeposits IS MEDIA AND federalFunds IS MEDIA AND moneyStock IS BAIXA AND checkableDeposits IS MEDIA AND loansLeases IS MEDIA AND savingsDeposits IS MEDIA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS BAIXO;
+ 		RULE 21 : IF YCMaturityRate1 IS MEDIA AND YCMortgageRate30 IS MEDIA AND MRateAuctionAverage3 IS ALTA AND MRateSecondaryMarket3 IS MEDIA AND YCMaturityRate3 IS MEDIA AND YCMaturityRate5 IS ALTA AND bankCredit IS ALTA AND currency IS BAIXA AND demandDeposits IS BAIXA AND federalFunds IS BAIXA AND moneyStock IS MEDIA AND checkableDeposits IS BAIXA AND loansLeases IS BAIXA AND savingsDeposits IS BAIXA AND tradeCurrencies IS BAIXA THEN MonthCDRate1 IS MEDIO;
+ 		RULE 22 : IF YCMaturityRate1 IS MEDIA AND YCMortgageRate30 IS BAIXA AND MRateAuctionAverage3 IS BAIXA AND MRateSecondaryMarket3 IS BAIXA AND YCMaturityRate3 IS BAIXA AND YCMaturityRate5 IS BAIXA AND bankCredit IS BAIXA AND currency IS ALTA AND demandDeposits IS ALTA AND federalFunds IS ALTA AND moneyStock IS BAIXA AND checkableDeposits IS ALTA AND loansLeases IS MEDIA AND savingsDeposits IS ALTA AND tradeCurrencies IS ALTA THEN MonthCDRate1 IS BAIXO;
+ 		RULE 23 : IF YCMaturityRate1 IS MEDIA AND YCMortgageRate30 IS BAIXA AND MRateAuctionAverage3 IS BAIXA AND MRateSecondaryMarket3 IS BAIXA AND YCMaturityRate3 IS BAIXA AND YCMaturityRate5 IS BAIXA AND bankCredit IS BAIXA AND currency IS MEDIA AND demandDeposits IS BAIXA AND federalFunds IS MEDIA AND moneyStock IS BAIXA AND checkableDeposits IS MEDIA AND loansLeases IS MEDIA AND savingsDeposits IS MEDIA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS BAIXO;
+ 		RULE 24 : IF YCMaturityRate1 IS ALTA AND YCMortgageRate30 IS MEDIA AND MRateAuctionAverage3 IS MEDIA AND MRateSecondaryMarket3 IS MEDIA AND YCMaturityRate3 IS MEDIA AND YCMaturityRate5 IS MEDIA AND bankCredit IS MEDIA AND currency IS BAIXA AND demandDeposits IS BAIXA AND federalFunds IS BAIXA AND moneyStock IS MEDIA AND checkableDeposits IS MEDIA AND loansLeases IS MEDIA AND savingsDeposits IS BAIXA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS MEDIO;
+ 		RULE 25 : IF YCMaturityRate1 IS MEDIA AND YCMortgageRate30 IS MEDIA AND MRateAuctionAverage3 IS MEDIA AND MRateSecondaryMarket3 IS BAIXA AND YCMaturityRate3 IS BAIXA AND YCMaturityRate5 IS MEDIA AND bankCredit IS MEDIA AND currency IS MEDIA AND demandDeposits IS BAIXA AND federalFunds IS MEDIA AND moneyStock IS BAIXA AND checkableDeposits IS MEDIA AND loansLeases IS MEDIA AND savingsDeposits IS MEDIA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS BAIXO;
+ 		RULE 26 : IF YCMaturityRate1 IS MEDIA AND YCMortgageRate30 IS ALTA AND MRateAuctionAverage3 IS ALTA AND MRateSecondaryMarket3 IS ALTA AND YCMaturityRate3 IS ALTA AND YCMaturityRate5 IS ALTA AND bankCredit IS ALTA AND currency IS BAIXA AND demandDeposits IS BAIXA AND federalFunds IS BAIXA AND moneyStock IS ALTA AND checkableDeposits IS BAIXA AND loansLeases IS BAIXA AND savingsDeposits IS BAIXA AND tradeCurrencies IS BAIXA THEN MonthCDRate1 IS ALTO;
+ 		RULE 27 : IF YCMaturityRate1 IS BAIXA AND YCMortgageRate30 IS BAIXA AND MRateAuctionAverage3 IS BAIXA AND MRateSecondaryMarket3 IS BAIXA AND YCMaturityRate3 IS BAIXA AND YCMaturityRate5 IS BAIXA AND bankCredit IS BAIXA AND currency IS MEDIA AND demandDeposits IS MEDIA AND federalFunds IS MEDIA AND moneyStock IS BAIXA AND checkableDeposits IS MEDIA AND loansLeases IS ALTA AND savingsDeposits IS MEDIA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS BAIXO;
+ 		RULE 28 : IF YCMaturityRate1 IS MEDIA AND YCMortgageRate30 IS MEDIA AND MRateAuctionAverage3 IS MEDIA AND MRateSecondaryMarket3 IS MEDIA AND YCMaturityRate3 IS MEDIA AND YCMaturityRate5 IS MEDIA AND bankCredit IS MEDIA AND currency IS MEDIA AND demandDeposits IS MEDIA AND federalFunds IS MEDIA AND moneyStock IS MEDIA AND checkableDeposits IS MEDIA AND loansLeases IS MEDIA AND savingsDeposits IS MEDIA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS MEDIO;
+ 		RULE 29 : IF YCMaturityRate1 IS MEDIA AND YCMortgageRate30 IS MEDIA AND MRateAuctionAverage3 IS MEDIA AND MRateSecondaryMarket3 IS MEDIA AND YCMaturityRate3 IS MEDIA AND YCMaturityRate5 IS MEDIA AND bankCredit IS MEDIA AND currency IS BAIXA AND demandDeposits IS BAIXA AND federalFunds IS BAIXA AND moneyStock IS MEDIA AND checkableDeposits IS BAIXA AND loansLeases IS BAIXA AND savingsDeposits IS BAIXA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS MEDIO;
+ 		RULE 30 : IF YCMaturityRate1 IS MEDIA AND YCMortgageRate30 IS ALTA AND MRateAuctionAverage3 IS MEDIA AND MRateSecondaryMarket3 IS ALTA AND YCMaturityRate3 IS ALTA AND YCMaturityRate5 IS ALTA AND bankCredit IS ALTA AND currency IS BAIXA AND demandDeposits IS BAIXA AND federalFunds IS BAIXA AND moneyStock IS ALTA AND checkableDeposits IS BAIXA AND loansLeases IS BAIXA AND savingsDeposits IS BAIXA AND tradeCurrencies IS BAIXA THEN MonthCDRate1 IS ALTO;
+ 		RULE 31 : IF YCMaturityRate1 IS BAIXA AND YCMortgageRate30 IS MEDIA AND MRateAuctionAverage3 IS MEDIA AND MRateSecondaryMarket3 IS MEDIA AND YCMaturityRate3 IS MEDIA AND YCMaturityRate5 IS MEDIA AND bankCredit IS MEDIA AND currency IS MEDIA AND demandDeposits IS BAIXA AND federalFunds IS MEDIA AND moneyStock IS BAIXA AND checkableDeposits IS MEDIA AND loansLeases IS MEDIA AND savingsDeposits IS MEDIA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS BAIXO;
+ 		RULE 32 : IF YCMaturityRate1 IS MEDIA AND YCMortgageRate30 IS MEDIA AND MRateAuctionAverage3 IS MEDIA AND MRateSecondaryMarket3 IS BAIXA AND YCMaturityRate3 IS MEDIA AND YCMaturityRate5 IS MEDIA AND bankCredit IS MEDIA AND currency IS BAIXA AND demandDeposits IS BAIXA AND federalFunds IS BAIXA AND moneyStock IS MEDIA AND checkableDeposits IS BAIXA AND loansLeases IS BAIXA AND savingsDeposits IS BAIXA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS MEDIO;
+ 		RULE 33 : IF YCMaturityRate1 IS MEDIA AND YCMortgageRate30 IS BAIXA AND MRateAuctionAverage3 IS BAIXA AND MRateSecondaryMarket3 IS BAIXA AND YCMaturityRate3 IS BAIXA AND YCMaturityRate5 IS BAIXA AND bankCredit IS BAIXA AND currency IS ALTA AND demandDeposits IS ALTA AND federalFunds IS MEDIA AND moneyStock IS BAIXA AND checkableDeposits IS ALTA AND loansLeases IS MEDIA AND savingsDeposits IS ALTA AND tradeCurrencies IS ALTA THEN MonthCDRate1 IS BAIXO;
+ 		RULE 34 : IF YCMaturityRate1 IS BAIXA AND YCMortgageRate30 IS BAIXA AND MRateAuctionAverage3 IS BAIXA AND MRateSecondaryMarket3 IS BAIXA AND YCMaturityRate3 IS BAIXA AND YCMaturityRate5 IS MEDIA AND bankCredit IS MEDIA AND currency IS MEDIA AND demandDeposits IS MEDIA AND federalFunds IS MEDIA AND moneyStock IS BAIXA AND checkableDeposits IS MEDIA AND loansLeases IS MEDIA AND savingsDeposits IS MEDIA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS BAIXO;
+ 		RULE 35 : IF YCMaturityRate1 IS MEDIA AND YCMortgageRate30 IS BAIXA AND MRateAuctionAverage3 IS MEDIA AND MRateSecondaryMarket3 IS BAIXA AND YCMaturityRate3 IS BAIXA AND YCMaturityRate5 IS BAIXA AND bankCredit IS BAIXA AND currency IS BAIXA AND demandDeposits IS BAIXA AND federalFunds IS MEDIA AND moneyStock IS BAIXA AND checkableDeposits IS MEDIA AND loansLeases IS MEDIA AND savingsDeposits IS BAIXA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS BAIXO;
+ 		RULE 36 : IF YCMaturityRate1 IS BAIXA AND YCMortgageRate30 IS BAIXA AND MRateAuctionAverage3 IS BAIXA AND MRateSecondaryMarket3 IS BAIXA AND YCMaturityRate3 IS BAIXA AND YCMaturityRate5 IS BAIXA AND bankCredit IS BAIXA AND currency IS MEDIA AND demandDeposits IS MEDIA AND federalFunds IS MEDIA AND moneyStock IS BAIXA AND checkableDeposits IS MEDIA AND loansLeases IS MEDIA AND savingsDeposits IS MEDIA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS BAIXO;
+ 		RULE 37 : IF YCMaturityRate1 IS MEDIA AND YCMortgageRate30 IS ALTA AND MRateAuctionAverage3 IS ALTA AND MRateSecondaryMarket3 IS MEDIA AND YCMaturityRate3 IS MEDIA AND YCMaturityRate5 IS ALTA AND bankCredit IS ALTA AND currency IS BAIXA AND demandDeposits IS BAIXA AND federalFunds IS BAIXA AND moneyStock IS MEDIA AND checkableDeposits IS BAIXA AND loansLeases IS BAIXA AND savingsDeposits IS BAIXA AND tradeCurrencies IS BAIXA THEN MonthCDRate1 IS MEDIO;
+ 		RULE 38 : IF YCMaturityRate1 IS BAIXA AND YCMortgageRate30 IS BAIXA AND MRateAuctionAverage3 IS MEDIA AND MRateSecondaryMarket3 IS BAIXA AND YCMaturityRate3 IS BAIXA AND YCMaturityRate5 IS MEDIA AND bankCredit IS MEDIA AND currency IS MEDIA AND demandDeposits IS MEDIA AND federalFunds IS MEDIA AND moneyStock IS BAIXA AND checkableDeposits IS MEDIA AND loansLeases IS MEDIA AND savingsDeposits IS MEDIA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS BAIXO;
+ 		RULE 39 : IF YCMaturityRate1 IS MEDIA AND YCMortgageRate30 IS MEDIA AND MRateAuctionAverage3 IS ALTA AND MRateSecondaryMarket3 IS MEDIA AND YCMaturityRate3 IS MEDIA AND YCMaturityRate5 IS MEDIA AND bankCredit IS MEDIA AND currency IS BAIXA AND demandDeposits IS BAIXA AND federalFunds IS BAIXA AND moneyStock IS ALTA AND checkableDeposits IS BAIXA AND loansLeases IS BAIXA AND savingsDeposits IS BAIXA AND tradeCurrencies IS BAIXA THEN MonthCDRate1 IS MEDIO;
+ 		RULE 40 : IF YCMaturityRate1 IS MEDIA AND YCMortgageRate30 IS MEDIA AND MRateAuctionAverage3 IS MEDIA AND MRateSecondaryMarket3 IS MEDIA AND YCMaturityRate3 IS BAIXA AND YCMaturityRate5 IS MEDIA AND bankCredit IS MEDIA AND currency IS BAIXA AND demandDeposits IS BAIXA AND federalFunds IS MEDIA AND moneyStock IS BAIXA AND checkableDeposits IS MEDIA AND loansLeases IS MEDIA AND savingsDeposits IS BAIXA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS BAIXO;
+ 		RULE 41 : IF YCMaturityRate1 IS MEDIA AND YCMortgageRate30 IS MEDIA AND MRateAuctionAverage3 IS MEDIA AND MRateSecondaryMarket3 IS MEDIA AND YCMaturityRate3 IS MEDIA AND YCMaturityRate5 IS MEDIA AND bankCredit IS MEDIA AND currency IS BAIXA AND demandDeposits IS BAIXA AND federalFunds IS BAIXA AND moneyStock IS MEDIA AND checkableDeposits IS MEDIA AND loansLeases IS MEDIA AND savingsDeposits IS BAIXA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS MEDIO;
+ 		RULE 42 : IF YCMaturityRate1 IS MEDIA AND YCMortgageRate30 IS BAIXA AND MRateAuctionAverage3 IS MEDIA AND MRateSecondaryMarket3 IS BAIXA AND YCMaturityRate3 IS BAIXA AND YCMaturityRate5 IS MEDIA AND bankCredit IS MEDIA AND currency IS MEDIA AND demandDeposits IS BAIXA AND federalFunds IS MEDIA AND moneyStock IS BAIXA AND checkableDeposits IS MEDIA AND loansLeases IS MEDIA AND savingsDeposits IS MEDIA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS BAIXO;
+ 		RULE 43 : IF YCMaturityRate1 IS ALTA AND YCMortgageRate30 IS MEDIA AND MRateAuctionAverage3 IS MEDIA AND MRateSecondaryMarket3 IS MEDIA AND YCMaturityRate3 IS MEDIA AND YCMaturityRate5 IS MEDIA AND bankCredit IS MEDIA AND currency IS BAIXA AND demandDeposits IS BAIXA AND federalFunds IS BAIXA AND moneyStock IS MEDIA AND checkableDeposits IS BAIXA AND loansLeases IS MEDIA AND savingsDeposits IS BAIXA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS MEDIO;
+ 		RULE 44 : IF YCMaturityRate1 IS MEDIA AND YCMortgageRate30 IS BAIXA AND MRateAuctionAverage3 IS MEDIA AND MRateSecondaryMarket3 IS BAIXA AND YCMaturityRate3 IS BAIXA AND YCMaturityRate5 IS BAIXA AND bankCredit IS MEDIA AND currency IS BAIXA AND demandDeposits IS BAIXA AND federalFunds IS MEDIA AND moneyStock IS BAIXA AND checkableDeposits IS MEDIA AND loansLeases IS MEDIA AND savingsDeposits IS BAIXA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS BAIXO;
+ 		RULE 45 : IF YCMaturityRate1 IS MEDIA AND YCMortgageRate30 IS MEDIA AND MRateAuctionAverage3 IS ALTA AND MRateSecondaryMarket3 IS MEDIA AND YCMaturityRate3 IS MEDIA AND YCMaturityRate5 IS MEDIA AND bankCredit IS ALTA AND currency IS BAIXA AND demandDeposits IS BAIXA AND federalFunds IS BAIXA AND moneyStock IS MEDIA AND checkableDeposits IS BAIXA AND loansLeases IS BAIXA AND savingsDeposits IS BAIXA AND tradeCurrencies IS BAIXA THEN MonthCDRate1 IS MEDIO;
+ 		RULE 46 : IF YCMaturityRate1 IS MEDIA AND YCMortgageRate30 IS MEDIA AND MRateAuctionAverage3 IS MEDIA AND MRateSecondaryMarket3 IS BAIXA AND YCMaturityRate3 IS BAIXA AND YCMaturityRate5 IS MEDIA AND bankCredit IS MEDIA AND currency IS BAIXA AND demandDeposits IS BAIXA AND federalFunds IS MEDIA AND moneyStock IS BAIXA AND checkableDeposits IS MEDIA AND loansLeases IS MEDIA AND savingsDeposits IS BAIXA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS BAIXO;
+ 		RULE 47 : IF YCMaturityRate1 IS BAIXA AND YCMortgageRate30 IS MEDIA AND MRateAuctionAverage3 IS BAIXA AND MRateSecondaryMarket3 IS BAIXA AND YCMaturityRate3 IS BAIXA AND YCMaturityRate5 IS MEDIA AND bankCredit IS MEDIA AND currency IS MEDIA AND demandDeposits IS MEDIA AND federalFunds IS ALTA AND moneyStock IS BAIXA AND checkableDeposits IS ALTA AND loansLeases IS ALTA AND savingsDeposits IS MEDIA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS BAIXO;
+ 		RULE 48 : IF YCMaturityRate1 IS MEDIA AND YCMortgageRate30 IS MEDIA AND MRateAuctionAverage3 IS MEDIA AND MRateSecondaryMarket3 IS MEDIA AND YCMaturityRate3 IS MEDIA AND YCMaturityRate5 IS MEDIA AND bankCredit IS MEDIA AND currency IS MEDIA AND demandDeposits IS BAIXA AND federalFunds IS MEDIA AND moneyStock IS MEDIA AND checkableDeposits IS MEDIA AND loansLeases IS MEDIA AND savingsDeposits IS MEDIA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS MEDIO;
+ 		RULE 49 : IF YCMaturityRate1 IS MEDIA AND YCMortgageRate30 IS BAIXA AND MRateAuctionAverage3 IS MEDIA AND MRateSecondaryMarket3 IS MEDIA AND YCMaturityRate3 IS BAIXA AND YCMaturityRate5 IS BAIXA AND bankCredit IS BAIXA AND currency IS BAIXA AND demandDeposits IS BAIXA AND federalFunds IS BAIXA AND moneyStock IS BAIXA AND checkableDeposits IS MEDIA AND loansLeases IS MEDIA AND savingsDeposits IS BAIXA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS BAIXO;
+ 		RULE 50 : IF YCMaturityRate1 IS MEDIA AND YCMortgageRate30 IS ALTA AND MRateAuctionAverage3 IS MEDIA AND MRateSecondaryMarket3 IS ALTA AND YCMaturityRate3 IS ALTA AND YCMaturityRate5 IS ALTA AND bankCredit IS ALTA AND currency IS BAIXA AND demandDeposits IS BAIXA AND federalFunds IS BAIXA AND moneyStock IS MEDIA AND checkableDeposits IS BAIXA AND loansLeases IS BAIXA AND savingsDeposits IS BAIXA AND tradeCurrencies IS BAIXA THEN MonthCDRate1 IS MEDIO;
+ 		RULE 51 : IF YCMaturityRate1 IS MEDIA AND YCMortgageRate30 IS MEDIA AND MRateAuctionAverage3 IS MEDIA AND MRateSecondaryMarket3 IS MEDIA AND YCMaturityRate3 IS MEDIA AND YCMaturityRate5 IS MEDIA AND bankCredit IS MEDIA AND currency IS MEDIA AND demandDeposits IS BAIXA AND federalFunds IS MEDIA AND moneyStock IS BAIXA AND checkableDeposits IS MEDIA AND loansLeases IS MEDIA AND savingsDeposits IS MEDIA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS BAIXO;
+ 		RULE 52 : IF YCMaturityRate1 IS MEDIA AND YCMortgageRate30 IS BAIXA AND MRateAuctionAverage3 IS MEDIA AND MRateSecondaryMarket3 IS BAIXA AND YCMaturityRate3 IS BAIXA AND YCMaturityRate5 IS BAIXA AND bankCredit IS BAIXA AND currency IS BAIXA AND demandDeposits IS BAIXA AND federalFunds IS BAIXA AND moneyStock IS BAIXA AND checkableDeposits IS MEDIA AND loansLeases IS MEDIA AND savingsDeposits IS BAIXA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS BAIXO;
+ 		RULE 53 : IF YCMaturityRate1 IS MEDIA AND YCMortgageRate30 IS BAIXA AND MRateAuctionAverage3 IS MEDIA AND MRateSecondaryMarket3 IS BAIXA AND YCMaturityRate3 IS BAIXA AND YCMaturityRate5 IS BAIXA AND bankCredit IS BAIXA AND currency IS BAIXA AND demandDeposits IS BAIXA AND federalFunds IS MEDIA AND moneyStock IS BAIXA AND checkableDeposits IS MEDIA AND loansLeases IS MEDIA AND savingsDeposits IS MEDIA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS BAIXO;
+ 		RULE 54 : IF YCMaturityRate1 IS BAIXA AND YCMortgageRate30 IS BAIXA AND MRateAuctionAverage3 IS BAIXA AND MRateSecondaryMarket3 IS BAIXA AND YCMaturityRate3 IS BAIXA AND YCMaturityRate5 IS BAIXA AND bankCredit IS MEDIA AND currency IS MEDIA AND demandDeposits IS MEDIA AND federalFunds IS ALTA AND moneyStock IS BAIXA AND checkableDeposits IS ALTA AND loansLeases IS ALTA AND savingsDeposits IS MEDIA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS BAIXO;
+ 		RULE 55 : IF YCMaturityRate1 IS MEDIA AND YCMortgageRate30 IS BAIXA AND MRateAuctionAverage3 IS BAIXA AND MRateSecondaryMarket3 IS BAIXA AND YCMaturityRate3 IS BAIXA AND YCMaturityRate5 IS BAIXA AND bankCredit IS BAIXA AND currency IS MEDIA AND demandDeposits IS BAIXA AND federalFunds IS MEDIA AND moneyStock IS MEDIA AND checkableDeposits IS MEDIA AND loansLeases IS MEDIA AND savingsDeposits IS MEDIA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS BAIXO;
+ 		RULE 56 : IF YCMaturityRate1 IS MEDIA AND YCMortgageRate30 IS MEDIA AND MRateAuctionAverage3 IS MEDIA AND MRateSecondaryMarket3 IS ALTA AND YCMaturityRate3 IS ALTA AND YCMaturityRate5 IS MEDIA AND bankCredit IS MEDIA AND currency IS BAIXA AND demandDeposits IS BAIXA AND federalFunds IS BAIXA AND moneyStock IS MEDIA AND checkableDeposits IS BAIXA AND loansLeases IS BAIXA AND savingsDeposits IS BAIXA AND tradeCurrencies IS BAIXA THEN MonthCDRate1 IS MEDIO;
+ 		RULE 57 : IF YCMaturityRate1 IS BAIXA AND YCMortgageRate30 IS MEDIA AND MRateAuctionAverage3 IS MEDIA AND MRateSecondaryMarket3 IS BAIXA AND YCMaturityRate3 IS BAIXA AND YCMaturityRate5 IS MEDIA AND bankCredit IS MEDIA AND currency IS MEDIA AND demandDeposits IS MEDIA AND federalFunds IS MEDIA AND moneyStock IS BAIXA AND checkableDeposits IS MEDIA AND loansLeases IS MEDIA AND savingsDeposits IS MEDIA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS BAIXO;
+ 		RULE 58 : IF YCMaturityRate1 IS MEDIA AND YCMortgageRate30 IS ALTA AND MRateAuctionAverage3 IS ALTA AND MRateSecondaryMarket3 IS ALTA AND YCMaturityRate3 IS MEDIA AND YCMaturityRate5 IS ALTA AND bankCredit IS ALTA AND currency IS BAIXA AND demandDeposits IS BAIXA AND federalFunds IS BAIXA AND moneyStock IS MEDIA AND checkableDeposits IS BAIXA AND loansLeases IS BAIXA AND savingsDeposits IS BAIXA AND tradeCurrencies IS BAIXA THEN MonthCDRate1 IS MEDIO;
+ 		RULE 59 : IF YCMaturityRate1 IS BAIXA AND YCMortgageRate30 IS MEDIA AND MRateAuctionAverage3 IS MEDIA AND MRateSecondaryMarket3 IS MEDIA AND YCMaturityRate3 IS MEDIA AND YCMaturityRate5 IS MEDIA AND bankCredit IS MEDIA AND currency IS MEDIA AND demandDeposits IS MEDIA AND federalFunds IS MEDIA AND moneyStock IS BAIXA AND checkableDeposits IS MEDIA AND loansLeases IS MEDIA AND savingsDeposits IS MEDIA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS BAIXO;
+ 		RULE 60 : IF YCMaturityRate1 IS MEDIA AND YCMortgageRate30 IS MEDIA AND MRateAuctionAverage3 IS MEDIA AND MRateSecondaryMarket3 IS MEDIA AND YCMaturityRate3 IS MEDIA AND YCMaturityRate5 IS MEDIA AND bankCredit IS ALTA AND currency IS BAIXA AND demandDeposits IS BAIXA AND federalFunds IS BAIXA AND moneyStock IS MEDIA AND checkableDeposits IS BAIXA AND loansLeases IS BAIXA AND savingsDeposits IS BAIXA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS MEDIO;
+ 		RULE 61 : IF YCMaturityRate1 IS MEDIA AND YCMortgageRate30 IS MEDIA AND MRateAuctionAverage3 IS MEDIA AND MRateSecondaryMarket3 IS BAIXA AND YCMaturityRate3 IS BAIXA AND YCMaturityRate5 IS MEDIA AND bankCredit IS MEDIA AND currency IS MEDIA AND demandDeposits IS BAIXA AND federalFunds IS MEDIA AND moneyStock IS MEDIA AND checkableDeposits IS MEDIA AND loansLeases IS MEDIA AND savingsDeposits IS MEDIA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS BAIXO;
+ 		RULE 62 : IF YCMaturityRate1 IS MEDIA AND YCMortgageRate30 IS BAIXA AND MRateAuctionAverage3 IS BAIXA AND MRateSecondaryMarket3 IS BAIXA AND YCMaturityRate3 IS BAIXA AND YCMaturityRate5 IS BAIXA AND bankCredit IS BAIXA AND currency IS ALTA AND demandDeposits IS MEDIA AND federalFunds IS ALTA AND moneyStock IS BAIXA AND checkableDeposits IS ALTA AND loansLeases IS MEDIA AND savingsDeposits IS ALTA AND tradeCurrencies IS ALTA THEN MonthCDRate1 IS BAIXO;
+ 		RULE 63 : IF YCMaturityRate1 IS BAIXA AND YCMortgageRate30 IS BAIXA AND MRateAuctionAverage3 IS MEDIA AND MRateSecondaryMarket3 IS MEDIA AND YCMaturityRate3 IS BAIXA AND YCMaturityRate5 IS MEDIA AND bankCredit IS MEDIA AND currency IS MEDIA AND demandDeposits IS MEDIA AND federalFunds IS MEDIA AND moneyStock IS MEDIA AND checkableDeposits IS MEDIA AND loansLeases IS MEDIA AND savingsDeposits IS MEDIA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS BAIXO;
+ 		RULE 64 : IF YCMaturityRate1 IS ALTA AND YCMortgageRate30 IS MEDIA AND MRateAuctionAverage3 IS MEDIA AND MRateSecondaryMarket3 IS MEDIA AND YCMaturityRate3 IS MEDIA AND YCMaturityRate5 IS MEDIA AND bankCredit IS ALTA AND currency IS BAIXA AND demandDeposits IS BAIXA AND federalFunds IS BAIXA AND moneyStock IS MEDIA AND checkableDeposits IS BAIXA AND loansLeases IS BAIXA AND savingsDeposits IS BAIXA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS MEDIO;
+ 		RULE 65 : IF YCMaturityRate1 IS MEDIA AND YCMortgageRate30 IS MEDIA AND MRateAuctionAverage3 IS MEDIA AND MRateSecondaryMarket3 IS MEDIA AND YCMaturityRate3 IS MEDIA AND YCMaturityRate5 IS ALTA AND bankCredit IS ALTA AND currency IS BAIXA AND demandDeposits IS BAIXA AND federalFunds IS BAIXA AND moneyStock IS MEDIA AND checkableDeposits IS BAIXA AND loansLeases IS BAIXA AND savingsDeposits IS BAIXA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS MEDIO;
+ 		RULE 66 : IF YCMaturityRate1 IS MEDIA AND YCMortgageRate30 IS MEDIA AND MRateAuctionAverage3 IS MEDIA AND MRateSecondaryMarket3 IS BAIXA AND YCMaturityRate3 IS MEDIA AND YCMaturityRate5 IS MEDIA AND bankCredit IS MEDIA AND currency IS MEDIA AND demandDeposits IS BAIXA AND federalFunds IS MEDIA AND moneyStock IS MEDIA AND checkableDeposits IS MEDIA AND loansLeases IS MEDIA AND savingsDeposits IS MEDIA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS BAIXO;
+ 		RULE 67 : IF YCMaturityRate1 IS ALTA AND YCMortgageRate30 IS MEDIA AND MRateAuctionAverage3 IS MEDIA AND MRateSecondaryMarket3 IS MEDIA AND YCMaturityRate3 IS MEDIA AND YCMaturityRate5 IS MEDIA AND bankCredit IS MEDIA AND currency IS BAIXA AND demandDeposits IS BAIXA AND federalFunds IS BAIXA AND moneyStock IS BAIXA AND checkableDeposits IS MEDIA AND loansLeases IS MEDIA AND savingsDeposits IS BAIXA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS BAIXO;
+ 		RULE 68 : IF YCMaturityRate1 IS BAIXA AND YCMortgageRate30 IS MEDIA AND MRateAuctionAverage3 IS MEDIA AND MRateSecondaryMarket3 IS MEDIA AND YCMaturityRate3 IS MEDIA AND YCMaturityRate5 IS MEDIA AND bankCredit IS MEDIA AND currency IS MEDIA AND demandDeposits IS MEDIA AND federalFunds IS BAIXA AND moneyStock IS MEDIA AND checkableDeposits IS MEDIA AND loansLeases IS MEDIA AND savingsDeposits IS MEDIA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS MEDIO;
+ 		RULE 69 : IF YCMaturityRate1 IS BAIXA AND YCMortgageRate30 IS BAIXA AND MRateAuctionAverage3 IS BAIXA AND MRateSecondaryMarket3 IS BAIXA AND YCMaturityRate3 IS BAIXA AND YCMaturityRate5 IS BAIXA AND bankCredit IS BAIXA AND currency IS ALTA AND demandDeposits IS MEDIA AND federalFunds IS ALTA AND moneyStock IS BAIXA AND checkableDeposits IS ALTA AND loansLeases IS MEDIA AND savingsDeposits IS MEDIA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS BAIXO;
+ 		RULE 70 : IF YCMaturityRate1 IS MEDIA AND YCMortgageRate30 IS MEDIA AND MRateAuctionAverage3 IS ALTA AND MRateSecondaryMarket3 IS ALTA AND YCMaturityRate3 IS ALTA AND YCMaturityRate5 IS MEDIA AND bankCredit IS MEDIA AND currency IS BAIXA AND demandDeposits IS BAIXA AND federalFunds IS BAIXA AND moneyStock IS ALTA AND checkableDeposits IS BAIXA AND loansLeases IS BAIXA AND savingsDeposits IS BAIXA AND tradeCurrencies IS BAIXA THEN MonthCDRate1 IS ALTO;
+ 		RULE 71 : IF YCMaturityRate1 IS MEDIA AND YCMortgageRate30 IS MEDIA AND MRateAuctionAverage3 IS MEDIA AND MRateSecondaryMarket3 IS MEDIA AND YCMaturityRate3 IS MEDIA AND YCMaturityRate5 IS ALTA AND bankCredit IS ALTA AND currency IS BAIXA AND demandDeposits IS BAIXA AND federalFunds IS BAIXA AND moneyStock IS MEDIA AND checkableDeposits IS BAIXA AND loansLeases IS BAIXA AND savingsDeposits IS BAIXA AND tradeCurrencies IS BAIXA THEN MonthCDRate1 IS MEDIO;
+ 		RULE 72 : IF YCMaturityRate1 IS MEDIA AND YCMortgageRate30 IS MEDIA AND MRateAuctionAverage3 IS MEDIA AND MRateSecondaryMarket3 IS MEDIA AND YCMaturityRate3 IS MEDIA AND YCMaturityRate5 IS BAIXA AND bankCredit IS MEDIA AND currency IS BAIXA AND demandDeposits IS BAIXA AND federalFunds IS BAIXA AND moneyStock IS MEDIA AND checkableDeposits IS MEDIA AND loansLeases IS MEDIA AND savingsDeposits IS BAIXA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS BAIXO;
+ 		RULE 73 : IF YCMaturityRate1 IS MEDIA AND YCMortgageRate30 IS MEDIA AND MRateAuctionAverage3 IS MEDIA AND MRateSecondaryMarket3 IS BAIXA AND YCMaturityRate3 IS MEDIA AND YCMaturityRate5 IS MEDIA AND bankCredit IS MEDIA AND currency IS MEDIA AND demandDeposits IS BAIXA AND federalFunds IS MEDIA AND moneyStock IS BAIXA AND checkableDeposits IS MEDIA AND loansLeases IS MEDIA AND savingsDeposits IS MEDIA AND tradeCurrencies IS MEDIA THEN MonthCDRate1 IS BAIXO;
+ 		RULE 74 : IF YCMaturityRate1 IS MEDIA AND YCMortgageRate30 IS ALTA AND MRateAuctionAverage3 IS MEDIA AND MRateSecondaryMarket3 IS ALTA AND YCMaturityRate3 IS ALTA AND YCMaturityRate5 IS ALTA AND bankCredit IS MEDIA AND currency IS BAIXA AND demandDeposits IS BAIXA AND federalFunds IS BAIXA AND moneyStock IS ALTA AND checkableDeposits IS BAIXA AND loansLeases IS BAIXA AND savingsDeposits IS BAIXA AND tradeCurrencies IS BAIXA THEN MonthCDRate1 IS ALTO;
+ 		RULE 75 : IF YCMaturityRate1 IS MEDIA AND YCMortgageRate30 IS ALTA AND MRateAuctionAverage3 IS MEDIA AND MRateSecondaryMarket3 IS ALTA AND YCMaturityRate3 IS ALTA AND YCMaturityRate5 IS MEDIA AND bankCredit IS MEDIA AND currency IS BAIXA AND demandDeposits IS BAIXA AND federalFunds IS BAIXA AND moneyStock IS MEDIA AND checkableDeposits IS BAIXA AND loansLeases IS BAIXA AND savingsDeposits IS BAIXA AND tradeCurrencies IS BAIXA THEN MonthCDRate1 IS MEDIO;
+ 
+
+
+	END_RULEBLOCK 
+
+END_FUNCTION_BLOCK 

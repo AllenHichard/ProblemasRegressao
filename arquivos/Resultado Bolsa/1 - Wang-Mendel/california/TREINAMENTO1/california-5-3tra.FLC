@@ -1,0 +1,211 @@
+FUNCTION_BLOCK california
+
+	VAR_INPUT
+		Longitude: real;
+		Latitude: real;
+		HousingMedianAge: real;
+		TotalRooms: real;
+		TotalBedrooms: real;
+		Population: real;
+		Households: real;
+		MedianIncome: real;
+	END_VAR
+
+	VAR_OUTPUT
+		MedianHouseValue: real;
+	END_VAR
+
+	FUZZIFY Longitude
+		TERM BAIXA := (-124.35, 1) (-124.35, 1) (-119.33, 0) ;
+		TERM MEDIA := (-124.35, 0) (-119.33, 1) (-114.31, 0) ;
+		TERM ALTA  := (-119.33, 0) (-114.31, 1) (-114.31, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY Latitude
+		TERM BAIXA := (32.54, 1) (32.54, 1) (37.245000000000005, 0) ;
+		TERM MEDIA := (32.54, 0) (37.245000000000005, 1) (41.95, 0) ;
+		TERM ALTA  := (37.245000000000005, 0) (41.95, 1) (41.95, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY HousingMedianAge
+		TERM BAIXA := (1, 1) (1, 1) (26.5, 0) ;
+		TERM MEDIA := (1, 0) (26.5, 1) (52, 0) ;
+		TERM ALTA  := (26.5, 0) (52, 1) (52, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY TotalRooms
+		TERM BAIXA := (2, 1) (2, 1) (19661.0, 0) ;
+		TERM MEDIA := (2, 0) (19661.0, 1) (39320, 0) ;
+		TERM ALTA  := (19661.0, 0) (39320, 1) (39320, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY TotalBedrooms
+		TERM BAIXA := (1, 1) (1, 1) (3223.0, 0) ;
+		TERM MEDIA := (1, 0) (3223.0, 1) (6445, 0) ;
+		TERM ALTA  := (3223.0, 0) (6445, 1) (6445, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY Population
+		TERM BAIXA := (3, 1) (3, 1) (17842.5, 0) ;
+		TERM MEDIA := (3, 0) (17842.5, 1) (35682, 0) ;
+		TERM ALTA  := (17842.5, 0) (35682, 1) (35682, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY Households
+		TERM BAIXA := (1, 1) (1, 1) (3041.5, 0) ;
+		TERM MEDIA := (1, 0) (3041.5, 1) (6082, 0) ;
+		TERM ALTA  := (3041.5, 0) (6082, 1) (6082, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY MedianIncome
+		TERM BAIXA := (0.4999, 1) (0.4999, 1) (7.75, 0) ;
+		TERM MEDIA := (0.4999, 0) (7.75, 1) (15.0001, 0) ;
+		TERM ALTA  := (7.75, 0) (15.0001, 1) (15.0001, 1) ;
+	END_FUZZIFY
+
+	DEFUZZIFY MedianHouseValue
+		TERM BAIXO := (14999, 1) (14999, 1) (257500.0, 0) ;
+		TERM MEDIO := (14999, 0) (257500.0, 1) (500001, 0) ;
+		TERM ALTO  := (257500.0, 0) (500001, 1) (500001, 1) ;
+
+		METHOD : COG;
+		DEFAULT := 0;
+	END_DEFUZZIFY
+
+	RULEBLOCK No1 
+		AND : MIN; 
+		ACT : MIN; 
+		ACCU : MAX; 
+
+		RULE 1 : IF Longitude IS BAIXA AND Latitude IS MEDIA AND HousingMedianAge IS MEDIA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS BAIXA THEN MedianHouseValue IS BAIXO;
+ 		RULE 2 : IF Longitude IS MEDIA AND Latitude IS BAIXA AND HousingMedianAge IS MEDIA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS MEDIA THEN MedianHouseValue IS ALTO;
+ 		RULE 3 : IF Longitude IS MEDIA AND Latitude IS BAIXA AND HousingMedianAge IS ALTA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS BAIXA THEN MedianHouseValue IS BAIXO;
+ 		RULE 4 : IF Longitude IS BAIXA AND Latitude IS MEDIA AND HousingMedianAge IS ALTA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS BAIXA THEN MedianHouseValue IS BAIXO;
+ 		RULE 5 : IF Longitude IS MEDIA AND Latitude IS BAIXA AND HousingMedianAge IS BAIXA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS BAIXA THEN MedianHouseValue IS BAIXO;
+ 		RULE 6 : IF Longitude IS MEDIA AND Latitude IS MEDIA AND HousingMedianAge IS MEDIA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS BAIXA THEN MedianHouseValue IS BAIXO;
+ 		RULE 7 : IF Longitude IS BAIXA AND Latitude IS MEDIA AND HousingMedianAge IS ALTA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS MEDIA THEN MedianHouseValue IS ALTO;
+ 		RULE 8 : IF Longitude IS MEDIA AND Latitude IS BAIXA AND HousingMedianAge IS BAIXA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS MEDIA THEN MedianHouseValue IS ALTO;
+ 		RULE 9 : IF Longitude IS MEDIA AND Latitude IS BAIXA AND HousingMedianAge IS MEDIA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS BAIXA THEN MedianHouseValue IS MEDIO;
+ 		RULE 10 : IF Longitude IS MEDIA AND Latitude IS MEDIA AND HousingMedianAge IS MEDIA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS MEDIA THEN MedianHouseValue IS MEDIO;
+ 		RULE 11 : IF Longitude IS MEDIA AND Latitude IS BAIXA AND HousingMedianAge IS ALTA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS MEDIA THEN MedianHouseValue IS MEDIO;
+ 		RULE 12 : IF Longitude IS BAIXA AND Latitude IS MEDIA AND HousingMedianAge IS MEDIA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS MEDIA THEN MedianHouseValue IS ALTO;
+ 		RULE 13 : IF Longitude IS MEDIA AND Latitude IS MEDIA AND HousingMedianAge IS BAIXA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS BAIXA THEN MedianHouseValue IS BAIXO;
+ 		RULE 14 : IF Longitude IS BAIXA AND Latitude IS ALTA AND HousingMedianAge IS MEDIA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS BAIXA THEN MedianHouseValue IS BAIXO;
+ 		RULE 15 : IF Longitude IS MEDIA AND Latitude IS MEDIA AND HousingMedianAge IS BAIXA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS MEDIA THEN MedianHouseValue IS MEDIO;
+ 		RULE 16 : IF Longitude IS BAIXA AND Latitude IS MEDIA AND HousingMedianAge IS BAIXA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS BAIXA THEN MedianHouseValue IS BAIXO;
+ 		RULE 17 : IF Longitude IS MEDIA AND Latitude IS MEDIA AND HousingMedianAge IS ALTA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS BAIXA THEN MedianHouseValue IS BAIXO;
+ 		RULE 18 : IF Longitude IS MEDIA AND Latitude IS MEDIA AND HousingMedianAge IS MEDIA AND TotalRooms IS BAIXA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS MEDIA AND MedianIncome IS BAIXA THEN MedianHouseValue IS BAIXO;
+ 		RULE 19 : IF Longitude IS MEDIA AND Latitude IS BAIXA AND HousingMedianAge IS MEDIA AND TotalRooms IS BAIXA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS MEDIA AND MedianIncome IS MEDIA THEN MedianHouseValue IS ALTO;
+ 		RULE 20 : IF Longitude IS MEDIA AND Latitude IS ALTA AND HousingMedianAge IS MEDIA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS BAIXA THEN MedianHouseValue IS BAIXO;
+ 		RULE 21 : IF Longitude IS ALTA AND Latitude IS BAIXA AND HousingMedianAge IS MEDIA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS BAIXA THEN MedianHouseValue IS MEDIO;
+ 		RULE 22 : IF Longitude IS ALTA AND Latitude IS MEDIA AND HousingMedianAge IS MEDIA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS BAIXA THEN MedianHouseValue IS BAIXO;
+ 		RULE 23 : IF Longitude IS BAIXA AND Latitude IS MEDIA AND HousingMedianAge IS BAIXA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS MEDIA THEN MedianHouseValue IS MEDIO;
+ 		RULE 24 : IF Longitude IS BAIXA AND Latitude IS MEDIA AND HousingMedianAge IS MEDIA AND TotalRooms IS BAIXA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS MEDIA AND MedianIncome IS BAIXA THEN MedianHouseValue IS BAIXO;
+ 		RULE 25 : IF Longitude IS ALTA AND Latitude IS BAIXA AND HousingMedianAge IS BAIXA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS BAIXA THEN MedianHouseValue IS BAIXO;
+ 		RULE 26 : IF Longitude IS MEDIA AND Latitude IS MEDIA AND HousingMedianAge IS MEDIA AND TotalRooms IS MEDIA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS MEDIA AND MedianIncome IS BAIXA THEN MedianHouseValue IS BAIXO;
+ 		RULE 27 : IF Longitude IS ALTA AND Latitude IS BAIXA AND HousingMedianAge IS BAIXA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS MEDIA THEN MedianHouseValue IS BAIXO;
+ 		RULE 28 : IF Longitude IS MEDIA AND Latitude IS BAIXA AND HousingMedianAge IS MEDIA AND TotalRooms IS MEDIA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS MEDIA AND MedianIncome IS MEDIA THEN MedianHouseValue IS ALTO;
+ 		RULE 29 : IF Longitude IS BAIXA AND Latitude IS ALTA AND HousingMedianAge IS ALTA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS BAIXA THEN MedianHouseValue IS BAIXO;
+ 		RULE 30 : IF Longitude IS ALTA AND Latitude IS BAIXA AND HousingMedianAge IS MEDIA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS MEDIA THEN MedianHouseValue IS BAIXO;
+ 		RULE 31 : IF Longitude IS MEDIA AND Latitude IS MEDIA AND HousingMedianAge IS ALTA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS MEDIA THEN MedianHouseValue IS MEDIO;
+ 		RULE 32 : IF Longitude IS MEDIA AND Latitude IS MEDIA AND HousingMedianAge IS BAIXA AND TotalRooms IS BAIXA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS MEDIA AND MedianIncome IS BAIXA THEN MedianHouseValue IS BAIXO;
+ 		RULE 33 : IF Longitude IS BAIXA AND Latitude IS ALTA AND HousingMedianAge IS BAIXA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS BAIXA THEN MedianHouseValue IS BAIXO;
+ 		RULE 34 : IF Longitude IS ALTA AND Latitude IS BAIXA AND HousingMedianAge IS MEDIA AND TotalRooms IS BAIXA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS BAIXA THEN MedianHouseValue IS BAIXO;
+ 		RULE 35 : IF Longitude IS MEDIA AND Latitude IS MEDIA AND HousingMedianAge IS BAIXA AND TotalRooms IS ALTA AND TotalBedrooms IS ALTA AND Population IS ALTA AND Households IS ALTA AND MedianIncome IS BAIXA THEN MedianHouseValue IS BAIXO;
+ 		RULE 36 : IF Longitude IS MEDIA AND Latitude IS BAIXA AND HousingMedianAge IS BAIXA AND TotalRooms IS MEDIA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS MEDIA AND MedianIncome IS MEDIA THEN MedianHouseValue IS MEDIO;
+ 		RULE 37 : IF Longitude IS MEDIA AND Latitude IS BAIXA AND HousingMedianAge IS ALTA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS ALTA THEN MedianHouseValue IS ALTO;
+ 		RULE 38 : IF Longitude IS MEDIA AND Latitude IS BAIXA AND HousingMedianAge IS ALTA AND TotalRooms IS BAIXA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS MEDIA AND MedianIncome IS BAIXA THEN MedianHouseValue IS MEDIO;
+ 		RULE 39 : IF Longitude IS MEDIA AND Latitude IS BAIXA AND HousingMedianAge IS MEDIA AND TotalRooms IS MEDIA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS MEDIA AND MedianIncome IS BAIXA THEN MedianHouseValue IS MEDIO;
+ 		RULE 40 : IF Longitude IS MEDIA AND Latitude IS BAIXA AND HousingMedianAge IS BAIXA AND TotalRooms IS MEDIA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS MEDIA AND MedianIncome IS BAIXA THEN MedianHouseValue IS MEDIO;
+ 		RULE 41 : IF Longitude IS MEDIA AND Latitude IS BAIXA AND HousingMedianAge IS BAIXA AND TotalRooms IS MEDIA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS MEDIA THEN MedianHouseValue IS ALTO;
+ 		RULE 42 : IF Longitude IS MEDIA AND Latitude IS BAIXA AND HousingMedianAge IS BAIXA AND TotalRooms IS MEDIA AND TotalBedrooms IS MEDIA AND Population IS MEDIA AND Households IS MEDIA AND MedianIncome IS MEDIA THEN MedianHouseValue IS MEDIO;
+ 		RULE 43 : IF Longitude IS BAIXA AND Latitude IS MEDIA AND HousingMedianAge IS BAIXA AND TotalRooms IS MEDIA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS MEDIA AND MedianIncome IS MEDIA THEN MedianHouseValue IS MEDIO;
+ 		RULE 44 : IF Longitude IS BAIXA AND Latitude IS MEDIA AND HousingMedianAge IS ALTA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS ALTA THEN MedianHouseValue IS ALTO;
+ 		RULE 45 : IF Longitude IS MEDIA AND Latitude IS BAIXA AND HousingMedianAge IS MEDIA AND TotalRooms IS MEDIA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS MEDIA THEN MedianHouseValue IS ALTO;
+ 		RULE 46 : IF Longitude IS MEDIA AND Latitude IS BAIXA AND HousingMedianAge IS MEDIA AND TotalRooms IS BAIXA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS BAIXA THEN MedianHouseValue IS BAIXO;
+ 		RULE 47 : IF Longitude IS MEDIA AND Latitude IS BAIXA AND HousingMedianAge IS MEDIA AND TotalRooms IS BAIXA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS MEDIA AND MedianIncome IS BAIXA THEN MedianHouseValue IS MEDIO;
+ 		RULE 48 : IF Longitude IS MEDIA AND Latitude IS BAIXA AND HousingMedianAge IS ALTA AND TotalRooms IS BAIXA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS BAIXA THEN MedianHouseValue IS MEDIO;
+ 		RULE 49 : IF Longitude IS MEDIA AND Latitude IS BAIXA AND HousingMedianAge IS MEDIA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS ALTA THEN MedianHouseValue IS ALTO;
+ 		RULE 50 : IF Longitude IS MEDIA AND Latitude IS BAIXA AND HousingMedianAge IS BAIXA AND TotalRooms IS BAIXA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS MEDIA AND MedianIncome IS MEDIA THEN MedianHouseValue IS MEDIO;
+ 		RULE 51 : IF Longitude IS BAIXA AND Latitude IS MEDIA AND HousingMedianAge IS MEDIA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS ALTA THEN MedianHouseValue IS ALTO;
+ 		RULE 52 : IF Longitude IS MEDIA AND Latitude IS BAIXA AND HousingMedianAge IS BAIXA AND TotalRooms IS BAIXA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS MEDIA AND MedianIncome IS BAIXA THEN MedianHouseValue IS MEDIO;
+ 		RULE 53 : IF Longitude IS BAIXA AND Latitude IS MEDIA AND HousingMedianAge IS BAIXA AND TotalRooms IS MEDIA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS ALTA THEN MedianHouseValue IS ALTO;
+ 		RULE 54 : IF Longitude IS MEDIA AND Latitude IS ALTA AND HousingMedianAge IS ALTA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS BAIXA THEN MedianHouseValue IS BAIXO;
+ 		RULE 55 : IF Longitude IS BAIXA AND Latitude IS MEDIA AND HousingMedianAge IS ALTA AND TotalRooms IS MEDIA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS MEDIA AND MedianIncome IS MEDIA THEN MedianHouseValue IS ALTO;
+ 		RULE 56 : IF Longitude IS MEDIA AND Latitude IS BAIXA AND HousingMedianAge IS BAIXA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS ALTA THEN MedianHouseValue IS ALTO;
+ 		RULE 57 : IF Longitude IS BAIXA AND Latitude IS MEDIA AND HousingMedianAge IS MEDIA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS MEDIA AND MedianIncome IS MEDIA THEN MedianHouseValue IS MEDIO;
+ 		RULE 58 : IF Longitude IS MEDIA AND Latitude IS MEDIA AND HousingMedianAge IS BAIXA AND TotalRooms IS MEDIA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS MEDIA AND MedianIncome IS BAIXA THEN MedianHouseValue IS BAIXO;
+ 		RULE 59 : IF Longitude IS BAIXA AND Latitude IS MEDIA AND HousingMedianAge IS MEDIA AND TotalRooms IS MEDIA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS ALTA THEN MedianHouseValue IS ALTO;
+ 		RULE 60 : IF Longitude IS MEDIA AND Latitude IS BAIXA AND HousingMedianAge IS MEDIA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS MEDIA AND MedianIncome IS BAIXA THEN MedianHouseValue IS MEDIO;
+ 		RULE 61 : IF Longitude IS MEDIA AND Latitude IS ALTA AND HousingMedianAge IS MEDIA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS MEDIA THEN MedianHouseValue IS BAIXO;
+ 		RULE 62 : IF Longitude IS MEDIA AND Latitude IS BAIXA AND HousingMedianAge IS MEDIA AND TotalRooms IS MEDIA AND TotalBedrooms IS MEDIA AND Population IS ALTA AND Households IS ALTA AND MedianIncome IS BAIXA THEN MedianHouseValue IS BAIXO;
+ 		RULE 63 : IF Longitude IS MEDIA AND Latitude IS BAIXA AND HousingMedianAge IS MEDIA AND TotalRooms IS MEDIA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS ALTA THEN MedianHouseValue IS ALTO;
+ 		RULE 64 : IF Longitude IS BAIXA AND Latitude IS ALTA AND HousingMedianAge IS MEDIA AND TotalRooms IS BAIXA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS MEDIA AND MedianIncome IS BAIXA THEN MedianHouseValue IS BAIXO;
+ 		RULE 65 : IF Longitude IS MEDIA AND Latitude IS ALTA AND HousingMedianAge IS BAIXA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS BAIXA THEN MedianHouseValue IS BAIXO;
+ 		RULE 66 : IF Longitude IS BAIXA AND Latitude IS ALTA AND HousingMedianAge IS MEDIA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS MEDIA THEN MedianHouseValue IS BAIXO;
+ 		RULE 67 : IF Longitude IS BAIXA AND Latitude IS MEDIA AND HousingMedianAge IS BAIXA AND TotalRooms IS MEDIA AND TotalBedrooms IS MEDIA AND Population IS MEDIA AND Households IS MEDIA AND MedianIncome IS MEDIA THEN MedianHouseValue IS ALTO;
+ 		RULE 68 : IF Longitude IS BAIXA AND Latitude IS MEDIA AND HousingMedianAge IS MEDIA AND TotalRooms IS MEDIA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS MEDIA THEN MedianHouseValue IS MEDIO;
+ 		RULE 69 : IF Longitude IS MEDIA AND Latitude IS BAIXA AND HousingMedianAge IS BAIXA AND TotalRooms IS MEDIA AND TotalBedrooms IS ALTA AND Population IS MEDIA AND Households IS ALTA AND MedianIncome IS BAIXA THEN MedianHouseValue IS BAIXO;
+ 		RULE 70 : IF Longitude IS BAIXA AND Latitude IS MEDIA AND HousingMedianAge IS BAIXA AND TotalRooms IS BAIXA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS MEDIA AND MedianIncome IS MEDIA THEN MedianHouseValue IS MEDIO;
+ 		RULE 71 : IF Longitude IS ALTA AND Latitude IS BAIXA AND HousingMedianAge IS BAIXA AND TotalRooms IS MEDIA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS MEDIA AND MedianIncome IS MEDIA THEN MedianHouseValue IS MEDIO;
+ 		RULE 72 : IF Longitude IS BAIXA AND Latitude IS MEDIA AND HousingMedianAge IS MEDIA AND TotalRooms IS MEDIA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS MEDIA AND MedianIncome IS MEDIA THEN MedianHouseValue IS MEDIO;
+ 		RULE 73 : IF Longitude IS MEDIA AND Latitude IS BAIXA AND HousingMedianAge IS MEDIA AND TotalRooms IS MEDIA AND TotalBedrooms IS MEDIA AND Population IS MEDIA AND Households IS MEDIA AND MedianIncome IS MEDIA THEN MedianHouseValue IS MEDIO;
+ 		RULE 74 : IF Longitude IS BAIXA AND Latitude IS MEDIA AND HousingMedianAge IS MEDIA AND TotalRooms IS BAIXA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS MEDIA AND MedianIncome IS MEDIA THEN MedianHouseValue IS MEDIO;
+ 		RULE 75 : IF Longitude IS BAIXA AND Latitude IS MEDIA AND HousingMedianAge IS MEDIA AND TotalRooms IS MEDIA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS MEDIA AND MedianIncome IS BAIXA THEN MedianHouseValue IS MEDIO;
+ 		RULE 76 : IF Longitude IS MEDIA AND Latitude IS MEDIA AND HousingMedianAge IS BAIXA AND TotalRooms IS MEDIA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS MEDIA AND MedianIncome IS MEDIA THEN MedianHouseValue IS MEDIO;
+ 		RULE 77 : IF Longitude IS BAIXA AND Latitude IS MEDIA AND HousingMedianAge IS ALTA AND TotalRooms IS BAIXA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS MEDIA AND MedianIncome IS BAIXA THEN MedianHouseValue IS MEDIO;
+ 		RULE 78 : IF Longitude IS MEDIA AND Latitude IS MEDIA AND HousingMedianAge IS MEDIA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS MEDIA AND MedianIncome IS BAIXA THEN MedianHouseValue IS BAIXO;
+ 		RULE 79 : IF Longitude IS MEDIA AND Latitude IS MEDIA AND HousingMedianAge IS MEDIA AND TotalRooms IS BAIXA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS BAIXA THEN MedianHouseValue IS BAIXO;
+ 		RULE 80 : IF Longitude IS MEDIA AND Latitude IS BAIXA AND HousingMedianAge IS BAIXA AND TotalRooms IS MEDIA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS MEDIA THEN MedianHouseValue IS MEDIO;
+ 		RULE 81 : IF Longitude IS MEDIA AND Latitude IS MEDIA AND HousingMedianAge IS BAIXA AND TotalRooms IS MEDIA AND TotalBedrooms IS ALTA AND Population IS MEDIA AND Households IS ALTA AND MedianIncome IS MEDIA THEN MedianHouseValue IS MEDIO;
+ 		RULE 82 : IF Longitude IS MEDIA AND Latitude IS BAIXA AND HousingMedianAge IS BAIXA AND TotalRooms IS BAIXA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS BAIXA THEN MedianHouseValue IS ALTO;
+ 		RULE 83 : IF Longitude IS MEDIA AND Latitude IS MEDIA AND HousingMedianAge IS MEDIA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS ALTA THEN MedianHouseValue IS ALTO;
+ 		RULE 84 : IF Longitude IS ALTA AND Latitude IS BAIXA AND HousingMedianAge IS BAIXA AND TotalRooms IS MEDIA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS MEDIA THEN MedianHouseValue IS MEDIO;
+ 		RULE 85 : IF Longitude IS ALTA AND Latitude IS BAIXA AND HousingMedianAge IS MEDIA AND TotalRooms IS MEDIA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS BAIXA THEN MedianHouseValue IS MEDIO;
+ 		RULE 86 : IF Longitude IS BAIXA AND Latitude IS ALTA AND HousingMedianAge IS BAIXA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS MEDIA THEN MedianHouseValue IS BAIXO;
+ 		RULE 87 : IF Longitude IS MEDIA AND Latitude IS MEDIA AND HousingMedianAge IS BAIXA AND TotalRooms IS MEDIA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS BAIXA THEN MedianHouseValue IS MEDIO;
+ 		RULE 88 : IF Longitude IS MEDIA AND Latitude IS MEDIA AND HousingMedianAge IS BAIXA AND TotalRooms IS MEDIA AND TotalBedrooms IS MEDIA AND Population IS MEDIA AND Households IS MEDIA AND MedianIncome IS BAIXA THEN MedianHouseValue IS MEDIO;
+ 		RULE 89 : IF Longitude IS MEDIA AND Latitude IS MEDIA AND HousingMedianAge IS BAIXA AND TotalRooms IS MEDIA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS MEDIA THEN MedianHouseValue IS MEDIO;
+ 		RULE 90 : IF Longitude IS ALTA AND Latitude IS BAIXA AND HousingMedianAge IS BAIXA AND TotalRooms IS MEDIA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS BAIXA THEN MedianHouseValue IS MEDIO;
+ 		RULE 91 : IF Longitude IS BAIXA AND Latitude IS ALTA AND HousingMedianAge IS MEDIA AND TotalRooms IS MEDIA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS MEDIA AND MedianIncome IS BAIXA THEN MedianHouseValue IS MEDIO;
+ 		RULE 92 : IF Longitude IS MEDIA AND Latitude IS MEDIA AND HousingMedianAge IS BAIXA AND TotalRooms IS BAIXA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS MEDIA AND MedianIncome IS MEDIA THEN MedianHouseValue IS MEDIO;
+ 		RULE 93 : IF Longitude IS ALTA AND Latitude IS BAIXA AND HousingMedianAge IS BAIXA AND TotalRooms IS BAIXA AND TotalBedrooms IS MEDIA AND Population IS MEDIA AND Households IS MEDIA AND MedianIncome IS BAIXA THEN MedianHouseValue IS MEDIO;
+ 		RULE 94 : IF Longitude IS MEDIA AND Latitude IS MEDIA AND HousingMedianAge IS MEDIA AND TotalRooms IS MEDIA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS MEDIA AND MedianIncome IS MEDIA THEN MedianHouseValue IS MEDIO;
+ 		RULE 95 : IF Longitude IS MEDIA AND Latitude IS MEDIA AND HousingMedianAge IS BAIXA AND TotalRooms IS ALTA AND TotalBedrooms IS ALTA AND Population IS MEDIA AND Households IS ALTA AND MedianIncome IS MEDIA THEN MedianHouseValue IS MEDIO;
+ 		RULE 96 : IF Longitude IS ALTA AND Latitude IS BAIXA AND HousingMedianAge IS BAIXA AND TotalRooms IS MEDIA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS MEDIA AND MedianIncome IS BAIXA THEN MedianHouseValue IS MEDIO;
+ 		RULE 97 : IF Longitude IS BAIXA AND Latitude IS MEDIA AND HousingMedianAge IS BAIXA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS ALTA THEN MedianHouseValue IS MEDIO;
+ 		RULE 98 : IF Longitude IS ALTA AND Latitude IS MEDIA AND HousingMedianAge IS BAIXA AND TotalRooms IS MEDIA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS BAIXA THEN MedianHouseValue IS BAIXO;
+ 		RULE 99 : IF Longitude IS ALTA AND Latitude IS BAIXA AND HousingMedianAge IS BAIXA AND TotalRooms IS BAIXA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS MEDIA AND MedianIncome IS BAIXA THEN MedianHouseValue IS BAIXO;
+ 		RULE 100 : IF Longitude IS BAIXA AND Latitude IS MEDIA AND HousingMedianAge IS MEDIA AND TotalRooms IS BAIXA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS BAIXA THEN MedianHouseValue IS MEDIO;
+ 		RULE 101 : IF Longitude IS ALTA AND Latitude IS BAIXA AND HousingMedianAge IS MEDIA AND TotalRooms IS MEDIA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS MEDIA THEN MedianHouseValue IS MEDIO;
+ 		RULE 102 : IF Longitude IS ALTA AND Latitude IS BAIXA AND HousingMedianAge IS ALTA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS BAIXA THEN MedianHouseValue IS BAIXO;
+ 		RULE 103 : IF Longitude IS MEDIA AND Latitude IS BAIXA AND HousingMedianAge IS BAIXA AND TotalRooms IS BAIXA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS MEDIA THEN MedianHouseValue IS MEDIO;
+ 		RULE 104 : IF Longitude IS ALTA AND Latitude IS BAIXA AND HousingMedianAge IS BAIXA AND TotalRooms IS BAIXA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS BAIXA THEN MedianHouseValue IS BAIXO;
+ 		RULE 105 : IF Longitude IS MEDIA AND Latitude IS MEDIA AND HousingMedianAge IS BAIXA AND TotalRooms IS MEDIA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS MEDIA THEN MedianHouseValue IS MEDIO;
+ 		RULE 106 : IF Longitude IS BAIXA AND Latitude IS ALTA AND HousingMedianAge IS BAIXA AND TotalRooms IS MEDIA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS MEDIA AND MedianIncome IS BAIXA THEN MedianHouseValue IS MEDIO;
+ 		RULE 107 : IF Longitude IS MEDIA AND Latitude IS BAIXA AND HousingMedianAge IS MEDIA AND TotalRooms IS MEDIA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS MEDIA THEN MedianHouseValue IS ALTO;
+ 		RULE 108 : IF Longitude IS MEDIA AND Latitude IS BAIXA AND HousingMedianAge IS BAIXA AND TotalRooms IS ALTA AND TotalBedrooms IS ALTA AND Population IS MEDIA AND Households IS ALTA AND MedianIncome IS MEDIA THEN MedianHouseValue IS MEDIO;
+ 		RULE 109 : IF Longitude IS MEDIA AND Latitude IS MEDIA AND HousingMedianAge IS MEDIA AND TotalRooms IS MEDIA AND TotalBedrooms IS MEDIA AND Population IS MEDIA AND Households IS MEDIA AND MedianIncome IS BAIXA THEN MedianHouseValue IS BAIXO;
+ 		RULE 110 : IF Longitude IS ALTA AND Latitude IS BAIXA AND HousingMedianAge IS MEDIA AND TotalRooms IS MEDIA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS MEDIA AND MedianIncome IS BAIXA THEN MedianHouseValue IS BAIXO;
+ 		RULE 111 : IF Longitude IS MEDIA AND Latitude IS ALTA AND HousingMedianAge IS BAIXA AND TotalRooms IS BAIXA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS MEDIA AND MedianIncome IS BAIXA THEN MedianHouseValue IS BAIXO;
+ 		RULE 112 : IF Longitude IS MEDIA AND Latitude IS MEDIA AND HousingMedianAge IS BAIXA AND TotalRooms IS BAIXA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS BAIXA THEN MedianHouseValue IS MEDIO;
+ 		RULE 113 : IF Longitude IS BAIXA AND Latitude IS MEDIA AND HousingMedianAge IS MEDIA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS MEDIA AND MedianIncome IS BAIXA THEN MedianHouseValue IS MEDIO;
+ 		RULE 114 : IF Longitude IS BAIXA AND Latitude IS MEDIA AND HousingMedianAge IS BAIXA AND TotalRooms IS BAIXA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS BAIXA THEN MedianHouseValue IS MEDIO;
+ 		RULE 115 : IF Longitude IS MEDIA AND Latitude IS ALTA AND HousingMedianAge IS BAIXA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS MEDIA THEN MedianHouseValue IS MEDIO;
+ 		RULE 116 : IF Longitude IS MEDIA AND Latitude IS BAIXA AND HousingMedianAge IS BAIXA AND TotalRooms IS MEDIA AND TotalBedrooms IS MEDIA AND Population IS MEDIA AND Households IS MEDIA AND MedianIncome IS BAIXA THEN MedianHouseValue IS BAIXO;
+ 		RULE 117 : IF Longitude IS MEDIA AND Latitude IS BAIXA AND HousingMedianAge IS MEDIA AND TotalRooms IS BAIXA AND TotalBedrooms IS MEDIA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS MEDIA THEN MedianHouseValue IS ALTO;
+ 		RULE 118 : IF Longitude IS BAIXA AND Latitude IS MEDIA AND HousingMedianAge IS MEDIA AND TotalRooms IS MEDIA AND TotalBedrooms IS MEDIA AND Population IS MEDIA AND Households IS MEDIA AND MedianIncome IS BAIXA THEN MedianHouseValue IS BAIXO;
+ 		RULE 119 : IF Longitude IS MEDIA AND Latitude IS BAIXA AND HousingMedianAge IS BAIXA AND TotalRooms IS ALTA AND TotalBedrooms IS ALTA AND Population IS MEDIA AND Households IS MEDIA AND MedianIncome IS MEDIA THEN MedianHouseValue IS MEDIO;
+ 		RULE 120 : IF Longitude IS MEDIA AND Latitude IS BAIXA AND HousingMedianAge IS MEDIA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS MEDIA AND MedianIncome IS MEDIA THEN MedianHouseValue IS MEDIO;
+ 		RULE 121 : IF Longitude IS MEDIA AND Latitude IS MEDIA AND HousingMedianAge IS ALTA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS ALTA THEN MedianHouseValue IS BAIXO;
+ 		RULE 122 : IF Longitude IS MEDIA AND Latitude IS BAIXA AND HousingMedianAge IS MEDIA AND TotalRooms IS MEDIA AND TotalBedrooms IS ALTA AND Population IS BAIXA AND Households IS ALTA AND MedianIncome IS MEDIA THEN MedianHouseValue IS ALTO;
+ 		RULE 123 : IF Longitude IS BAIXA AND Latitude IS ALTA AND HousingMedianAge IS MEDIA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS MEDIA AND MedianIncome IS BAIXA THEN MedianHouseValue IS BAIXO;
+ 		RULE 124 : IF Longitude IS MEDIA AND Latitude IS BAIXA AND HousingMedianAge IS MEDIA AND TotalRooms IS MEDIA AND TotalBedrooms IS MEDIA AND Population IS MEDIA AND Households IS MEDIA AND MedianIncome IS BAIXA THEN MedianHouseValue IS BAIXO;
+ 		RULE 125 : IF Longitude IS ALTA AND Latitude IS MEDIA AND HousingMedianAge IS BAIXA AND TotalRooms IS BAIXA AND TotalBedrooms IS BAIXA AND Population IS BAIXA AND Households IS BAIXA AND MedianIncome IS BAIXA THEN MedianHouseValue IS BAIXO;
+ 		RULE 126 : IF Longitude IS MEDIA AND Latitude IS BAIXA AND HousingMedianAge IS MEDIA AND TotalRooms IS BAIXA AND TotalBedrooms IS MEDIA AND Population IS MEDIA AND Households IS MEDIA AND MedianIncome IS BAIXA THEN MedianHouseValue IS MEDIO;
+ 
+
+
+	END_RULEBLOCK 
+
+END_FUNCTION_BLOCK 

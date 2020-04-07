@@ -1,0 +1,101 @@
+FUNCTION_BLOCK autoMPG8
+
+	VAR_INPUT
+		Cylinders: real;
+		Displacement: real;
+		Horsepower: real;
+		Weight: real;
+		Acceleration: real;
+		Modelyear: real;
+		Origin: real;
+	END_VAR
+
+	VAR_OUTPUT
+		Mpg: real;
+	END_VAR
+
+	FUZZIFY Cylinders
+		TERM BAIXA := (3, 1) (3, 1) (5.704514810919096, 0) ;
+		TERM MEDIA := (3, 0) (5.704514810919096, 1) (8, 0) ;
+		TERM ALTA  := (5.704514810919096, 0) (8, 1) (8, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY Displacement
+		TERM BAIXA := (68.0, 1) (68.0, 1) (287.53313863566854, 0) ;
+		TERM MEDIA := (68.0, 0) (287.53313863566854, 1) (455.0, 0) ;
+		TERM ALTA  := (287.53313863566854, 0) (455.0, 1) (455.0, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY Horsepower
+		TERM BAIXA := (46, 1) (46, 1) (138.0, 0) ;
+		TERM MEDIA := (46, 0) (138.0, 1) (230, 0) ;
+		TERM ALTA  := (138.0, 0) (230, 1) (230, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY Weight
+		TERM BAIXA := (1613, 1) (1613, 1) (3340.210388730626, 0) ;
+		TERM MEDIA := (1613, 0) (3340.210388730626, 1) (5140, 0) ;
+		TERM ALTA  := (3340.210388730626, 0) (5140, 1) (5140, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY Acceleration
+		TERM BAIXA := (8.0, 1) (8.0, 1) (16.029075334059648, 0) ;
+		TERM MEDIA := (8.0, 0) (16.029075334059648, 1) (24.8, 0) ;
+		TERM ALTA  := (16.029075334059648, 0) (24.8, 1) (24.8, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY Modelyear
+		TERM BAIXA := (70, 1) (70, 1) (75.93770921050252, 0) ;
+		TERM MEDIA := (70, 0) (75.93770921050252, 1) (82, 0) ;
+		TERM ALTA  := (75.93770921050252, 0) (82, 1) (82, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY Origin
+		TERM BAIXA := (1, 1) (1, 1) (2.0, 0) ;
+		TERM MEDIA := (1, 0) (2.0, 1) (3, 0) ;
+		TERM ALTA  := (2.0, 0) (3, 1) (3, 1) ;
+	END_FUZZIFY
+
+	DEFUZZIFY Mpg
+		TERM BAIXO := (9.0, 1) (9.0, 1) (27.8, 0) ;
+		TERM MEDIO := (9.0, 0) (27.8, 1) (46.6, 0) ;
+		TERM ALTO  := (27.8, 0) (46.6, 1) (46.6, 1) ;
+
+		METHOD : COG;
+		DEFAULT := 0;
+	END_DEFUZZIFY
+
+	RULEBLOCK No1 
+		AND : MIN; 
+		ACT : MIN; 
+		ACCU : MAX; 
+
+		RULE 1 : IF Cylinders IS ALTA AND Displacement IS ALTA AND Horsepower IS MEDIA AND Weight IS MEDIA AND Acceleration IS BAIXA AND Modelyear IS BAIXA AND Origin IS BAIXA THEN Mpg IS BAIXO;
+ 		RULE 2 : IF Cylinders IS BAIXA AND Displacement IS BAIXA AND Horsepower IS BAIXA AND Weight IS BAIXA AND Acceleration IS MEDIA AND Modelyear IS ALTA AND Origin IS ALTA THEN Mpg IS MEDIO;
+ 		RULE 3 : IF Cylinders IS MEDIA AND Displacement IS MEDIA AND Horsepower IS BAIXA AND Weight IS BAIXA AND Acceleration IS MEDIA AND Modelyear IS BAIXA AND Origin IS BAIXA THEN Mpg IS BAIXO;
+ 		RULE 4 : IF Cylinders IS BAIXA AND Displacement IS BAIXA AND Horsepower IS BAIXA AND Weight IS BAIXA AND Acceleration IS ALTA AND Modelyear IS ALTA AND Origin IS MEDIA THEN Mpg IS ALTO;
+ 		RULE 5 : IF Cylinders IS BAIXA AND Displacement IS BAIXA AND Horsepower IS BAIXA AND Weight IS BAIXA AND Acceleration IS BAIXA AND Modelyear IS MEDIA AND Origin IS BAIXA THEN Mpg IS MEDIO;
+ 		RULE 6 : IF Cylinders IS MEDIA AND Displacement IS MEDIA AND Horsepower IS BAIXA AND Weight IS MEDIA AND Acceleration IS MEDIA AND Modelyear IS MEDIA AND Origin IS BAIXA THEN Mpg IS BAIXO;
+ 		RULE 7 : IF Cylinders IS BAIXA AND Displacement IS BAIXA AND Horsepower IS MEDIA AND Weight IS MEDIA AND Acceleration IS MEDIA AND Modelyear IS MEDIA AND Origin IS MEDIA THEN Mpg IS MEDIO;
+ 		RULE 8 : IF Cylinders IS ALTA AND Displacement IS BAIXA AND Horsepower IS MEDIA AND Weight IS BAIXA AND Acceleration IS BAIXA AND Modelyear IS MEDIA AND Origin IS BAIXA THEN Mpg IS BAIXO;
+ 		RULE 9 : IF Cylinders IS MEDIA AND Displacement IS BAIXA AND Horsepower IS BAIXA AND Weight IS BAIXA AND Acceleration IS MEDIA AND Modelyear IS ALTA AND Origin IS BAIXA THEN Mpg IS MEDIO;
+ 		RULE 10 : IF Cylinders IS ALTA AND Displacement IS MEDIA AND Horsepower IS ALTA AND Weight IS ALTA AND Acceleration IS BAIXA AND Modelyear IS BAIXA AND Origin IS BAIXA THEN Mpg IS BAIXO;
+ 		RULE 11 : IF Cylinders IS MEDIA AND Displacement IS BAIXA AND Horsepower IS BAIXA AND Weight IS MEDIA AND Acceleration IS MEDIA AND Modelyear IS BAIXA AND Origin IS MEDIA THEN Mpg IS MEDIO;
+ 		RULE 12 : IF Cylinders IS BAIXA AND Displacement IS BAIXA AND Horsepower IS BAIXA AND Weight IS MEDIA AND Acceleration IS MEDIA AND Modelyear IS BAIXA AND Origin IS MEDIA THEN Mpg IS BAIXO;
+ 		RULE 13 : IF Cylinders IS BAIXA AND Displacement IS BAIXA AND Horsepower IS BAIXA AND Weight IS BAIXA AND Acceleration IS MEDIA AND Modelyear IS MEDIA AND Origin IS BAIXA THEN Mpg IS MEDIO;
+ 		RULE 14 : IF Cylinders IS BAIXA AND Displacement IS BAIXA AND Horsepower IS BAIXA AND Weight IS BAIXA AND Acceleration IS BAIXA AND Modelyear IS BAIXA AND Origin IS BAIXA THEN Mpg IS BAIXO;
+ 		RULE 15 : IF Cylinders IS MEDIA AND Displacement IS BAIXA AND Horsepower IS BAIXA AND Weight IS MEDIA AND Acceleration IS MEDIA AND Modelyear IS ALTA AND Origin IS MEDIA THEN Mpg IS MEDIO;
+ 		RULE 16 : IF Cylinders IS BAIXA AND Displacement IS MEDIA AND Horsepower IS MEDIA AND Weight IS BAIXA AND Acceleration IS BAIXA AND Modelyear IS MEDIA AND Origin IS BAIXA THEN Mpg IS BAIXO;
+ 		RULE 17 : IF Cylinders IS MEDIA AND Displacement IS MEDIA AND Horsepower IS MEDIA AND Weight IS ALTA AND Acceleration IS BAIXA AND Modelyear IS BAIXA AND Origin IS MEDIA THEN Mpg IS MEDIO;
+ 		RULE 18 : IF Cylinders IS MEDIA AND Displacement IS MEDIA AND Horsepower IS MEDIA AND Weight IS MEDIA AND Acceleration IS MEDIA AND Modelyear IS MEDIA AND Origin IS ALTA THEN Mpg IS MEDIO;
+ 		RULE 19 : IF Cylinders IS MEDIA AND Displacement IS MEDIA AND Horsepower IS BAIXA AND Weight IS BAIXA AND Acceleration IS ALTA AND Modelyear IS MEDIA AND Origin IS BAIXA THEN Mpg IS BAIXO;
+ 		RULE 20 : IF Cylinders IS ALTA AND Displacement IS MEDIA AND Horsepower IS MEDIA AND Weight IS MEDIA AND Acceleration IS MEDIA AND Modelyear IS ALTA AND Origin IS BAIXA THEN Mpg IS BAIXO;
+ 		RULE 21 : IF Cylinders IS BAIXA AND Displacement IS BAIXA AND Horsepower IS BAIXA AND Weight IS MEDIA AND Acceleration IS MEDIA AND Modelyear IS BAIXA AND Origin IS BAIXA THEN Mpg IS BAIXO;
+ 		RULE 22 : IF Cylinders IS MEDIA AND Displacement IS MEDIA AND Horsepower IS MEDIA AND Weight IS BAIXA AND Acceleration IS BAIXA AND Modelyear IS MEDIA AND Origin IS ALTA THEN Mpg IS MEDIO;
+ 		RULE 23 : IF Cylinders IS BAIXA AND Displacement IS BAIXA AND Horsepower IS MEDIA AND Weight IS BAIXA AND Acceleration IS MEDIA AND Modelyear IS BAIXA AND Origin IS ALTA THEN Mpg IS MEDIO;
+ 
+
+
+	END_RULEBLOCK 
+
+END_FUNCTION_BLOCK 

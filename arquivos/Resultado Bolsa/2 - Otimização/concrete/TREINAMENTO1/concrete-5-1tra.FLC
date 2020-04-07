@@ -1,0 +1,113 @@
+FUNCTION_BLOCK concrete
+
+	VAR_INPUT
+		Cement: real;
+		BlastFurnaceSlag: real;
+		FlyAsh: real;
+		Water: real;
+		Superplasticizer: real;
+		CoarseAggregate: real;
+		FineAggregate: real;
+		Age: real;
+	END_VAR
+
+	VAR_OUTPUT
+		ConcreteCompressiveStrength: real;
+	END_VAR
+
+	FUZZIFY Cement
+		TERM BAIXA := (102.0, 1) (102.0, 1) (371.0604670942904, 0) ;
+		TERM MEDIA := (102.0, 0) (371.0604670942904, 1) (540.0, 0) ;
+		TERM ALTA  := (371.0604670942904, 0) (540.0, 1) (540.0, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY BlastFurnaceSlag
+		TERM BAIXA := (0.0, 1) (0.0, 1) (179.7, 0) ;
+		TERM MEDIA := (0.0, 0) (179.7, 1) (359.4, 0) ;
+		TERM ALTA  := (179.7, 0) (359.4, 1) (359.4, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY FlyAsh
+		TERM BAIXA := (0.0, 1) (0.0, 1) (100.06373736196467, 0) ;
+		TERM MEDIA := (0.0, 0) (100.06373736196467, 1) (200.100006, 0) ;
+		TERM ALTA  := (100.06373736196467, 0) (200.100006, 1) (200.100006, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY Water
+		TERM BAIXA := (121.8, 1) (121.8, 1) (184.75836084365338, 0) ;
+		TERM MEDIA := (121.8, 0) (184.75836084365338, 1) (247.0, 0) ;
+		TERM ALTA  := (184.75836084365338, 0) (247.0, 1) (247.0, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY Superplasticizer
+		TERM BAIXA := (0.0, 1) (0.0, 1) (16.08242986661749, 0) ;
+		TERM MEDIA := (0.0, 0) (16.08242986661749, 1) (32.200001, 0) ;
+		TERM ALTA  := (16.08242986661749, 0) (32.200001, 1) (32.200001, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY CoarseAggregate
+		TERM BAIXA := (801.0, 1) (801.0, 1) (980.1857657969167, 0) ;
+		TERM MEDIA := (801.0, 0) (980.1857657969167, 1) (1145.0, 0) ;
+		TERM ALTA  := (980.1857657969167, 0) (1145.0, 1) (1145.0, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY FineAggregate
+		TERM BAIXA := (594.0, 1) (594.0, 1) (771.4871397486451, 0) ;
+		TERM MEDIA := (594.0, 0) (771.4871397486451, 1) (992.6, 0) ;
+		TERM ALTA  := (771.4871397486451, 0) (992.6, 1) (992.6, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY Age
+		TERM BAIXA := (1, 1) (1, 1) (188.09406547180618, 0) ;
+		TERM MEDIA := (1, 0) (188.09406547180618, 1) (365, 0) ;
+		TERM ALTA  := (188.09406547180618, 0) (365, 1) (365, 1) ;
+	END_FUZZIFY
+
+	DEFUZZIFY ConcreteCompressiveStrength
+		TERM BAIXO := (2.33, 1) (2.33, 1) (42.464999999999996, 0) ;
+		TERM MEDIO := (2.33, 0) (42.464999999999996, 1) (82.6, 0) ;
+		TERM ALTO  := (42.464999999999996, 0) (82.6, 1) (82.6, 1) ;
+
+		METHOD : COG;
+		DEFAULT := 0;
+	END_DEFUZZIFY
+
+	RULEBLOCK No1 
+		AND : MIN; 
+		ACT : MIN; 
+		ACCU : MAX; 
+
+		RULE 1 : IF Cement IS MEDIA AND BlastFurnaceSlag IS BAIXA AND FlyAsh IS BAIXA AND Water IS MEDIA AND Superplasticizer IS BAIXA AND CoarseAggregate IS ALTA AND FineAggregate IS MEDIA AND Age IS BAIXA THEN ConcreteCompressiveStrength IS BAIXO;
+ 		RULE 2 : IF Cement IS MEDIA AND BlastFurnaceSlag IS BAIXA AND FlyAsh IS MEDIA AND Water IS BAIXA AND Superplasticizer IS MEDIA AND CoarseAggregate IS MEDIA AND FineAggregate IS BAIXA AND Age IS BAIXA THEN ConcreteCompressiveStrength IS BAIXO;
+ 		RULE 3 : IF Cement IS MEDIA AND BlastFurnaceSlag IS BAIXA AND FlyAsh IS BAIXA AND Water IS MEDIA AND Superplasticizer IS BAIXA AND CoarseAggregate IS ALTA AND FineAggregate IS BAIXA AND Age IS BAIXA THEN ConcreteCompressiveStrength IS MEDIO;
+ 		RULE 4 : IF Cement IS MEDIA AND BlastFurnaceSlag IS BAIXA AND FlyAsh IS BAIXA AND Water IS MEDIA AND Superplasticizer IS BAIXA AND CoarseAggregate IS MEDIA AND FineAggregate IS MEDIA AND Age IS MEDIA THEN ConcreteCompressiveStrength IS MEDIO;
+ 		RULE 5 : IF Cement IS BAIXA AND BlastFurnaceSlag IS MEDIA AND FlyAsh IS BAIXA AND Water IS MEDIA AND Superplasticizer IS BAIXA AND CoarseAggregate IS MEDIA AND FineAggregate IS MEDIA AND Age IS BAIXA THEN ConcreteCompressiveStrength IS BAIXO;
+ 		RULE 6 : IF Cement IS BAIXA AND BlastFurnaceSlag IS BAIXA AND FlyAsh IS MEDIA AND Water IS MEDIA AND Superplasticizer IS BAIXA AND CoarseAggregate IS BAIXA AND FineAggregate IS BAIXA AND Age IS BAIXA THEN ConcreteCompressiveStrength IS BAIXO;
+ 		RULE 7 : IF Cement IS MEDIA AND BlastFurnaceSlag IS BAIXA AND FlyAsh IS MEDIA AND Water IS MEDIA AND Superplasticizer IS MEDIA AND CoarseAggregate IS BAIXA AND FineAggregate IS BAIXA AND Age IS BAIXA THEN ConcreteCompressiveStrength IS MEDIO;
+ 		RULE 8 : IF Cement IS MEDIA AND BlastFurnaceSlag IS BAIXA AND FlyAsh IS MEDIA AND Water IS MEDIA AND Superplasticizer IS BAIXA AND CoarseAggregate IS MEDIA AND FineAggregate IS MEDIA AND Age IS MEDIA THEN ConcreteCompressiveStrength IS MEDIO;
+ 		RULE 9 : IF Cement IS BAIXA AND BlastFurnaceSlag IS MEDIA AND FlyAsh IS BAIXA AND Water IS BAIXA AND Superplasticizer IS MEDIA AND CoarseAggregate IS BAIXA AND FineAggregate IS BAIXA AND Age IS BAIXA THEN ConcreteCompressiveStrength IS MEDIO;
+ 		RULE 10 : IF Cement IS MEDIA AND BlastFurnaceSlag IS BAIXA AND FlyAsh IS BAIXA AND Water IS MEDIA AND Superplasticizer IS BAIXA AND CoarseAggregate IS MEDIA AND FineAggregate IS MEDIA AND Age IS BAIXA THEN ConcreteCompressiveStrength IS BAIXO;
+ 		RULE 11 : IF Cement IS MEDIA AND BlastFurnaceSlag IS BAIXA AND FlyAsh IS BAIXA AND Water IS ALTA AND Superplasticizer IS BAIXA AND CoarseAggregate IS MEDIA AND FineAggregate IS BAIXA AND Age IS BAIXA THEN ConcreteCompressiveStrength IS MEDIO;
+ 		RULE 12 : IF Cement IS BAIXA AND BlastFurnaceSlag IS MEDIA AND FlyAsh IS MEDIA AND Water IS BAIXA AND Superplasticizer IS BAIXA AND CoarseAggregate IS BAIXA AND FineAggregate IS BAIXA AND Age IS BAIXA THEN ConcreteCompressiveStrength IS BAIXO;
+ 		RULE 13 : IF Cement IS BAIXA AND BlastFurnaceSlag IS BAIXA AND FlyAsh IS MEDIA AND Water IS MEDIA AND Superplasticizer IS BAIXA AND CoarseAggregate IS MEDIA AND FineAggregate IS MEDIA AND Age IS BAIXA THEN ConcreteCompressiveStrength IS BAIXO;
+ 		RULE 14 : IF Cement IS BAIXA AND BlastFurnaceSlag IS MEDIA AND FlyAsh IS BAIXA AND Water IS MEDIA AND Superplasticizer IS MEDIA AND CoarseAggregate IS MEDIA AND FineAggregate IS BAIXA AND Age IS BAIXA THEN ConcreteCompressiveStrength IS MEDIO;
+ 		RULE 15 : IF Cement IS MEDIA AND BlastFurnaceSlag IS BAIXA AND FlyAsh IS MEDIA AND Water IS MEDIA AND Superplasticizer IS BAIXA AND CoarseAggregate IS BAIXA AND FineAggregate IS BAIXA AND Age IS MEDIA THEN ConcreteCompressiveStrength IS MEDIO;
+ 		RULE 16 : IF Cement IS BAIXA AND BlastFurnaceSlag IS BAIXA AND FlyAsh IS BAIXA AND Water IS BAIXA AND Superplasticizer IS BAIXA AND CoarseAggregate IS ALTA AND FineAggregate IS BAIXA AND Age IS BAIXA THEN ConcreteCompressiveStrength IS BAIXO;
+ 		RULE 17 : IF Cement IS MEDIA AND BlastFurnaceSlag IS BAIXA AND FlyAsh IS BAIXA AND Water IS MEDIA AND Superplasticizer IS BAIXA AND CoarseAggregate IS BAIXA AND FineAggregate IS BAIXA AND Age IS ALTA THEN ConcreteCompressiveStrength IS MEDIO;
+ 		RULE 18 : IF Cement IS BAIXA AND BlastFurnaceSlag IS MEDIA AND FlyAsh IS BAIXA AND Water IS MEDIA AND Superplasticizer IS BAIXA AND CoarseAggregate IS MEDIA AND FineAggregate IS BAIXA AND Age IS MEDIA THEN ConcreteCompressiveStrength IS MEDIO;
+ 		RULE 19 : IF Cement IS BAIXA AND BlastFurnaceSlag IS MEDIA AND FlyAsh IS BAIXA AND Water IS MEDIA AND Superplasticizer IS MEDIA AND CoarseAggregate IS MEDIA AND FineAggregate IS BAIXA AND Age IS BAIXA THEN ConcreteCompressiveStrength IS MEDIO;
+ 		RULE 20 : IF Cement IS MEDIA AND BlastFurnaceSlag IS BAIXA AND FlyAsh IS BAIXA AND Water IS MEDIA AND Superplasticizer IS BAIXA AND CoarseAggregate IS BAIXA AND FineAggregate IS MEDIA AND Age IS MEDIA THEN ConcreteCompressiveStrength IS MEDIO;
+ 		RULE 21 : IF Cement IS MEDIA AND BlastFurnaceSlag IS BAIXA AND FlyAsh IS ALTA AND Water IS MEDIA AND Superplasticizer IS BAIXA AND CoarseAggregate IS BAIXA AND FineAggregate IS MEDIA AND Age IS MEDIA THEN ConcreteCompressiveStrength IS BAIXO;
+ 		RULE 22 : IF Cement IS MEDIA AND BlastFurnaceSlag IS BAIXA AND FlyAsh IS BAIXA AND Water IS BAIXA AND Superplasticizer IS ALTA AND CoarseAggregate IS BAIXA AND FineAggregate IS MEDIA AND Age IS BAIXA THEN ConcreteCompressiveStrength IS MEDIO;
+ 		RULE 23 : IF Cement IS ALTA AND BlastFurnaceSlag IS BAIXA AND FlyAsh IS BAIXA AND Water IS MEDIA AND Superplasticizer IS BAIXA AND CoarseAggregate IS MEDIA AND FineAggregate IS BAIXA AND Age IS MEDIA THEN ConcreteCompressiveStrength IS MEDIO;
+ 		RULE 24 : IF Cement IS MEDIA AND BlastFurnaceSlag IS BAIXA AND FlyAsh IS BAIXA AND Water IS BAIXA AND Superplasticizer IS BAIXA AND CoarseAggregate IS MEDIA AND FineAggregate IS MEDIA AND Age IS BAIXA THEN ConcreteCompressiveStrength IS ALTO;
+ 		RULE 25 : IF Cement IS BAIXA AND BlastFurnaceSlag IS MEDIA AND FlyAsh IS MEDIA AND Water IS MEDIA AND Superplasticizer IS MEDIA AND CoarseAggregate IS BAIXA AND FineAggregate IS BAIXA AND Age IS BAIXA THEN ConcreteCompressiveStrength IS MEDIO;
+ 		RULE 26 : IF Cement IS MEDIA AND BlastFurnaceSlag IS BAIXA AND FlyAsh IS BAIXA AND Water IS MEDIA AND Superplasticizer IS BAIXA AND CoarseAggregate IS MEDIA AND FineAggregate IS BAIXA AND Age IS MEDIA THEN ConcreteCompressiveStrength IS MEDIO;
+ 		RULE 27 : IF Cement IS BAIXA AND BlastFurnaceSlag IS BAIXA AND FlyAsh IS BAIXA AND Water IS ALTA AND Superplasticizer IS BAIXA AND CoarseAggregate IS MEDIA AND FineAggregate IS BAIXA AND Age IS MEDIA THEN ConcreteCompressiveStrength IS MEDIO;
+ 		RULE 28 : IF Cement IS MEDIA AND BlastFurnaceSlag IS MEDIA AND FlyAsh IS BAIXA AND Water IS MEDIA AND Superplasticizer IS MEDIA AND CoarseAggregate IS MEDIA AND FineAggregate IS MEDIA AND Age IS BAIXA THEN ConcreteCompressiveStrength IS ALTO;
+ 
+
+
+	END_RULEBLOCK 
+
+END_FUNCTION_BLOCK 

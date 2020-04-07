@@ -1,0 +1,56 @@
+FUNCTION_BLOCK quake
+
+	VAR_INPUT
+		Focaldepth: real;
+		Latitude: real;
+		Longitude: real;
+	END_VAR
+
+	VAR_OUTPUT
+		Richter: real;
+	END_VAR
+
+	FUZZIFY Focaldepth
+		TERM BAIXA := (0, 1) (0, 1) (472.83932954242925, 0) ;
+		TERM MEDIA := (0, 0) (472.83932954242925, 1) (656, 0) ;
+		TERM ALTA  := (472.83932954242925, 0) (656, 1) (656, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY Latitude
+		TERM BAIXA := (-66.49, 1) (-66.49, 1) (27.24093108789743, 0) ;
+		TERM MEDIA := (-66.49, 0) (27.24093108789743, 1) (78.15, 0) ;
+		TERM ALTA  := (27.24093108789743, 0) (78.15, 1) (78.15, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY Longitude
+		TERM BAIXA := (-179.96, 1) (-179.96, 1) (-2.0576315743472122, 0) ;
+		TERM MEDIA := (-179.96, 0) (-2.0576315743472122, 1) (180, 0) ;
+		TERM ALTA  := (-2.0576315743472122, 0) (180, 1) (180, 1) ;
+	END_FUZZIFY
+
+	DEFUZZIFY Richter
+		TERM BAIXO := (5.8, 1) (5.8, 1) (6.35, 0) ;
+		TERM MEDIO := (5.8, 0) (6.35, 1) (6.9, 0) ;
+		TERM ALTO  := (6.35, 0) (6.9, 1) (6.9, 1) ;
+
+		METHOD : COG;
+		DEFAULT := 0;
+	END_DEFUZZIFY
+
+	RULEBLOCK No1 
+		AND : MIN; 
+		ACT : MIN; 
+		ACCU : MAX; 
+
+		RULE 1 : IF Focaldepth IS BAIXA AND Latitude IS MEDIA AND Longitude IS BAIXA THEN Richter IS BAIXO;
+ 		RULE 2 : IF Focaldepth IS BAIXA AND Latitude IS MEDIA AND Longitude IS ALTA THEN Richter IS BAIXO;
+ 		RULE 3 : IF Focaldepth IS ALTA AND Latitude IS BAIXA AND Longitude IS ALTA THEN Richter IS BAIXO;
+ 		RULE 4 : IF Focaldepth IS MEDIA AND Latitude IS ALTA AND Longitude IS ALTA THEN Richter IS BAIXO;
+ 		RULE 5 : IF Focaldepth IS MEDIA AND Latitude IS BAIXA AND Longitude IS BAIXA THEN Richter IS BAIXO;
+ 		RULE 6 : IF Focaldepth IS BAIXA AND Latitude IS BAIXA AND Longitude IS MEDIA THEN Richter IS BAIXO;
+ 
+
+
+	END_RULEBLOCK 
+
+END_FUNCTION_BLOCK 

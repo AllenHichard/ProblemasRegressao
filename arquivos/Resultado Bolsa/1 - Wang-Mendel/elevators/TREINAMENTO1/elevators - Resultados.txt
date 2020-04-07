@@ -1,0 +1,13 @@
+Arquivo 1 - Acurácia = 4.0032264859360465E-4 +/- 6.768390718300843E-6 - Interpretabilidade = 0.9621206416145794 +/- 7.31062285257014E-4
+Arquivo 2 - Acurácia = 4.0589817916554906E-4 +/- 6.768390718300843E-6 - Interpretabilidade = 0.9603132766021538 +/- 7.31062285257014E-4
+Arquivo 3 - Acurácia = 4.008248718490307E-4 +/- 6.768390718300843E-6 - Interpretabilidade = 0.9613675728594021 +/- 7.31062285257014E-4
+Arquivo 4 - Acurácia = 3.860927340850552E-4 +/- 6.768390718300843E-6 - Interpretabilidade = 0.9606145041042247 +/- 7.31062285257014E-4
+Arquivo 5 - Acurácia = 4.0213180858109375E-4 +/- 6.768390718300843E-6 - Interpretabilidade = 0.9601656626506024 +/- 7.31062285257014E-4
+Arquivo 1 - Geração = 0.0
+Arquivo 2 - Geração = 0.0
+Arquivo 3 - Geração = 0.0
+Arquivo 4 - Geração = 0.0
+Arquivo 5 - Geração = 0.0
+Média EQM 3.9905404845486667E-4
+Média Interpretabilidade 0.9609163315661926
+Média Gerações 0.0

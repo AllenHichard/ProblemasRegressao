@@ -1,0 +1,155 @@
+FUNCTION_BLOCK abalone
+
+	VAR_INPUT
+		Sex: real;
+		Length: real;
+		Diameter: real;
+		Height: real;
+		Whole_weight: real;
+		Shucked_weight: real;
+		Viscera_weight: real;
+		Shell_weight: real;
+	END_VAR
+
+	VAR_OUTPUT
+		Rings: real;
+	END_VAR
+
+	FUZZIFY Sex
+		TERM BAIXA := (1, 1) (1, 1) (2.0, 0) ;
+		TERM MEDIA := (1, 0) (2.0, 1) (3, 0) ;
+		TERM ALTA  := (2.0, 0) (3, 1) (3, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY Length
+		TERM BAIXA := (0.075, 1) (0.075, 1) (0.44499999999999995, 0) ;
+		TERM MEDIA := (0.075, 0) (0.44499999999999995, 1) (0.815, 0) ;
+		TERM ALTA  := (0.44499999999999995, 0) (0.815, 1) (0.815, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY Diameter
+		TERM BAIXA := (0.055, 1) (0.055, 1) (0.35250000000000004, 0) ;
+		TERM MEDIA := (0.055, 0) (0.35250000000000004, 1) (0.65, 0) ;
+		TERM ALTA  := (0.35250000000000004, 0) (0.65, 1) (0.65, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY Height
+		TERM BAIXA := (0.0, 1) (0.0, 1) (0.565, 0) ;
+		TERM MEDIA := (0.0, 0) (0.565, 1) (1.13, 0) ;
+		TERM ALTA  := (0.565, 0) (1.13, 1) (1.13, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY Whole_weight
+		TERM BAIXA := (0.0020, 1) (0.0020, 1) (1.4137499999999998, 0) ;
+		TERM MEDIA := (0.0020, 0) (1.4137499999999998, 1) (2.8255, 0) ;
+		TERM ALTA  := (1.4137499999999998, 0) (2.8255, 1) (2.8255, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY Shucked_weight
+		TERM BAIXA := (0.0010, 1) (0.0010, 1) (0.7444999999999999, 0) ;
+		TERM MEDIA := (0.0010, 0) (0.7444999999999999, 1) (1.488, 0) ;
+		TERM ALTA  := (0.7444999999999999, 0) (1.488, 1) (1.488, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY Viscera_weight
+		TERM BAIXA := (5.0E-4, 1) (5.0E-4, 1) (0.38025, 0) ;
+		TERM MEDIA := (5.0E-4, 0) (0.38025, 1) (0.76, 0) ;
+		TERM ALTA  := (0.38025, 0) (0.76, 1) (0.76, 1) ;
+	END_FUZZIFY
+
+	FUZZIFY Shell_weight
+		TERM BAIXA := (0.0015, 1) (0.0015, 1) (0.50325, 0) ;
+		TERM MEDIA := (0.0015, 0) (0.50325, 1) (1.005, 0) ;
+		TERM ALTA  := (0.50325, 0) (1.005, 1) (1.005, 1) ;
+	END_FUZZIFY
+
+	DEFUZZIFY Rings
+		TERM BAIXO := (1, 1) (1, 1) (15.0, 0) ;
+		TERM MEDIO := (1, 0) (15.0, 1) (29, 0) ;
+		TERM ALTO  := (15.0, 0) (29, 1) (29, 1) ;
+
+		METHOD : COG;
+		DEFAULT := 0;
+	END_DEFUZZIFY
+
+	RULEBLOCK No1 
+		AND : MIN; 
+		ACT : MIN; 
+		ACCU : MAX; 
+
+		RULE 1 : IF Sex IS ALTA AND Length IS MEDIA AND Diameter IS MEDIA AND Height IS BAIXA AND Whole_weight IS BAIXA AND Shucked_weight IS BAIXA AND Viscera_weight IS BAIXA AND Shell_weight IS BAIXA THEN Rings IS BAIXO;
+ 		RULE 2 : IF Sex IS MEDIA AND Length IS MEDIA AND Diameter IS MEDIA AND Height IS BAIXA AND Whole_weight IS MEDIA AND Shucked_weight IS MEDIA AND Viscera_weight IS MEDIA AND Shell_weight IS MEDIA THEN Rings IS MEDIO;
+ 		RULE 3 : IF Sex IS MEDIA AND Length IS ALTA AND Diameter IS MEDIA AND Height IS BAIXA AND Whole_weight IS MEDIA AND Shucked_weight IS MEDIA AND Viscera_weight IS MEDIA AND Shell_weight IS MEDIA THEN Rings IS MEDIO;
+ 		RULE 4 : IF Sex IS MEDIA AND Length IS MEDIA AND Diameter IS MEDIA AND Height IS BAIXA AND Whole_weight IS BAIXA AND Shucked_weight IS BAIXA AND Viscera_weight IS BAIXA AND Shell_weight IS BAIXA THEN Rings IS MEDIO;
+ 		RULE 5 : IF Sex IS BAIXA AND Length IS MEDIA AND Diameter IS MEDIA AND Height IS BAIXA AND Whole_weight IS MEDIA AND Shucked_weight IS MEDIA AND Viscera_weight IS MEDIA AND Shell_weight IS MEDIA THEN Rings IS MEDIO;
+ 		RULE 6 : IF Sex IS MEDIA AND Length IS MEDIA AND Diameter IS MEDIA AND Height IS BAIXA AND Whole_weight IS MEDIA AND Shucked_weight IS MEDIA AND Viscera_weight IS BAIXA AND Shell_weight IS BAIXA THEN Rings IS BAIXO;
+ 		RULE 7 : IF Sex IS ALTA AND Length IS ALTA AND Diameter IS MEDIA AND Height IS BAIXA AND Whole_weight IS MEDIA AND Shucked_weight IS MEDIA AND Viscera_weight IS MEDIA AND Shell_weight IS MEDIA THEN Rings IS MEDIO;
+ 		RULE 8 : IF Sex IS BAIXA AND Length IS MEDIA AND Diameter IS MEDIA AND Height IS BAIXA AND Whole_weight IS BAIXA AND Shucked_weight IS BAIXA AND Viscera_weight IS BAIXA AND Shell_weight IS BAIXA THEN Rings IS MEDIO;
+ 		RULE 9 : IF Sex IS MEDIA AND Length IS ALTA AND Diameter IS ALTA AND Height IS BAIXA AND Whole_weight IS MEDIA AND Shucked_weight IS MEDIA AND Viscera_weight IS MEDIA AND Shell_weight IS MEDIA THEN Rings IS MEDIO;
+ 		RULE 10 : IF Sex IS BAIXA AND Length IS MEDIA AND Diameter IS MEDIA AND Height IS BAIXA AND Whole_weight IS MEDIA AND Shucked_weight IS BAIXA AND Viscera_weight IS MEDIA AND Shell_weight IS BAIXA THEN Rings IS MEDIO;
+ 		RULE 11 : IF Sex IS BAIXA AND Length IS MEDIA AND Diameter IS ALTA AND Height IS BAIXA AND Whole_weight IS MEDIA AND Shucked_weight IS MEDIA AND Viscera_weight IS MEDIA AND Shell_weight IS MEDIA THEN Rings IS MEDIO;
+ 		RULE 12 : IF Sex IS BAIXA AND Length IS MEDIA AND Diameter IS MEDIA AND Height IS BAIXA AND Whole_weight IS MEDIA AND Shucked_weight IS BAIXA AND Viscera_weight IS MEDIA AND Shell_weight IS MEDIA THEN Rings IS MEDIO;
+ 		RULE 13 : IF Sex IS BAIXA AND Length IS MEDIA AND Diameter IS MEDIA AND Height IS BAIXA AND Whole_weight IS MEDIA AND Shucked_weight IS MEDIA AND Viscera_weight IS BAIXA AND Shell_weight IS MEDIA THEN Rings IS MEDIO;
+ 		RULE 14 : IF Sex IS BAIXA AND Length IS ALTA AND Diameter IS MEDIA AND Height IS BAIXA AND Whole_weight IS MEDIA AND Shucked_weight IS MEDIA AND Viscera_weight IS MEDIA AND Shell_weight IS MEDIA THEN Rings IS MEDIO;
+ 		RULE 15 : IF Sex IS BAIXA AND Length IS ALTA AND Diameter IS ALTA AND Height IS BAIXA AND Whole_weight IS MEDIA AND Shucked_weight IS MEDIA AND Viscera_weight IS MEDIA AND Shell_weight IS MEDIA THEN Rings IS MEDIO;
+ 		RULE 16 : IF Sex IS ALTA AND Length IS MEDIA AND Diameter IS MEDIA AND Height IS BAIXA AND Whole_weight IS MEDIA AND Shucked_weight IS MEDIA AND Viscera_weight IS BAIXA AND Shell_weight IS MEDIA THEN Rings IS MEDIO;
+ 		RULE 17 : IF Sex IS ALTA AND Length IS BAIXA AND Diameter IS BAIXA AND Height IS BAIXA AND Whole_weight IS BAIXA AND Shucked_weight IS BAIXA AND Viscera_weight IS BAIXA AND Shell_weight IS BAIXA THEN Rings IS BAIXO;
+ 		RULE 18 : IF Sex IS BAIXA AND Length IS ALTA AND Diameter IS ALTA AND Height IS BAIXA AND Whole_weight IS ALTA AND Shucked_weight IS MEDIA AND Viscera_weight IS MEDIA AND Shell_weight IS MEDIA THEN Rings IS MEDIO;
+ 		RULE 19 : IF Sex IS ALTA AND Length IS MEDIA AND Diameter IS MEDIA AND Height IS BAIXA AND Whole_weight IS MEDIA AND Shucked_weight IS BAIXA AND Viscera_weight IS BAIXA AND Shell_weight IS BAIXA THEN Rings IS MEDIO;
+ 		RULE 20 : IF Sex IS BAIXA AND Length IS BAIXA AND Diameter IS BAIXA AND Height IS BAIXA AND Whole_weight IS BAIXA AND Shucked_weight IS BAIXA AND Viscera_weight IS BAIXA AND Shell_weight IS BAIXA THEN Rings IS BAIXO;
+ 		RULE 21 : IF Sex IS BAIXA AND Length IS MEDIA AND Diameter IS MEDIA AND Height IS BAIXA AND Whole_weight IS MEDIA AND Shucked_weight IS BAIXA AND Viscera_weight IS BAIXA AND Shell_weight IS BAIXA THEN Rings IS MEDIO;
+ 		RULE 22 : IF Sex IS BAIXA AND Length IS MEDIA AND Diameter IS MEDIA AND Height IS BAIXA AND Whole_weight IS MEDIA AND Shucked_weight IS MEDIA AND Viscera_weight IS BAIXA AND Shell_weight IS BAIXA THEN Rings IS MEDIO;
+ 		RULE 23 : IF Sex IS MEDIA AND Length IS MEDIA AND Diameter IS ALTA AND Height IS BAIXA AND Whole_weight IS MEDIA AND Shucked_weight IS MEDIA AND Viscera_weight IS MEDIA AND Shell_weight IS MEDIA THEN Rings IS MEDIO;
+ 		RULE 24 : IF Sex IS ALTA AND Length IS MEDIA AND Diameter IS MEDIA AND Height IS BAIXA AND Whole_weight IS MEDIA AND Shucked_weight IS MEDIA AND Viscera_weight IS MEDIA AND Shell_weight IS MEDIA THEN Rings IS MEDIO;
+ 		RULE 25 : IF Sex IS MEDIA AND Length IS MEDIA AND Diameter IS MEDIA AND Height IS BAIXA AND Whole_weight IS MEDIA AND Shucked_weight IS BAIXA AND Viscera_weight IS MEDIA AND Shell_weight IS BAIXA THEN Rings IS BAIXO;
+ 		RULE 26 : IF Sex IS BAIXA AND Length IS MEDIA AND Diameter IS MEDIA AND Height IS BAIXA AND Whole_weight IS BAIXA AND Shucked_weight IS BAIXA AND Viscera_weight IS BAIXA AND Shell_weight IS MEDIA THEN Rings IS MEDIO;
+ 		RULE 27 : IF Sex IS ALTA AND Length IS MEDIA AND Diameter IS BAIXA AND Height IS BAIXA AND Whole_weight IS BAIXA AND Shucked_weight IS BAIXA AND Viscera_weight IS BAIXA AND Shell_weight IS BAIXA THEN Rings IS BAIXO;
+ 		RULE 28 : IF Sex IS BAIXA AND Length IS ALTA AND Diameter IS ALTA AND Height IS BAIXA AND Whole_weight IS ALTA AND Shucked_weight IS MEDIA AND Viscera_weight IS MEDIA AND Shell_weight IS ALTA THEN Rings IS ALTO;
+ 		RULE 29 : IF Sex IS MEDIA AND Length IS MEDIA AND Diameter IS MEDIA AND Height IS BAIXA AND Whole_weight IS MEDIA AND Shucked_weight IS BAIXA AND Viscera_weight IS BAIXA AND Shell_weight IS BAIXA THEN Rings IS ALTO;
+ 		RULE 30 : IF Sex IS ALTA AND Length IS MEDIA AND Diameter IS MEDIA AND Height IS BAIXA AND Whole_weight IS MEDIA AND Shucked_weight IS BAIXA AND Viscera_weight IS MEDIA AND Shell_weight IS MEDIA THEN Rings IS MEDIO;
+ 		RULE 31 : IF Sex IS ALTA AND Length IS MEDIA AND Diameter IS MEDIA AND Height IS BAIXA AND Whole_weight IS MEDIA AND Shucked_weight IS MEDIA AND Viscera_weight IS BAIXA AND Shell_weight IS BAIXA THEN Rings IS MEDIO;
+ 		RULE 32 : IF Sex IS ALTA AND Length IS BAIXA AND Diameter IS MEDIA AND Height IS BAIXA AND Whole_weight IS BAIXA AND Shucked_weight IS BAIXA AND Viscera_weight IS BAIXA AND Shell_weight IS BAIXA THEN Rings IS BAIXO;
+ 		RULE 33 : IF Sex IS MEDIA AND Length IS MEDIA AND Diameter IS MEDIA AND Height IS BAIXA AND Whole_weight IS MEDIA AND Shucked_weight IS MEDIA AND Viscera_weight IS MEDIA AND Shell_weight IS BAIXA THEN Rings IS MEDIO;
+ 		RULE 34 : IF Sex IS BAIXA AND Length IS MEDIA AND Diameter IS MEDIA AND Height IS BAIXA AND Whole_weight IS MEDIA AND Shucked_weight IS BAIXA AND Viscera_weight IS BAIXA AND Shell_weight IS MEDIA THEN Rings IS BAIXO;
+ 		RULE 35 : IF Sex IS BAIXA AND Length IS ALTA AND Diameter IS ALTA AND Height IS BAIXA AND Whole_weight IS ALTA AND Shucked_weight IS ALTA AND Viscera_weight IS MEDIA AND Shell_weight IS MEDIA THEN Rings IS MEDIO;
+ 		RULE 36 : IF Sex IS MEDIA AND Length IS MEDIA AND Diameter IS MEDIA AND Height IS BAIXA AND Whole_weight IS MEDIA AND Shucked_weight IS MEDIA AND Viscera_weight IS BAIXA AND Shell_weight IS MEDIA THEN Rings IS MEDIO;
+ 		RULE 37 : IF Sex IS MEDIA AND Length IS ALTA AND Diameter IS ALTA AND Height IS BAIXA AND Whole_weight IS ALTA AND Shucked_weight IS ALTA AND Viscera_weight IS MEDIA AND Shell_weight IS MEDIA THEN Rings IS MEDIO;
+ 		RULE 38 : IF Sex IS ALTA AND Length IS MEDIA AND Diameter IS MEDIA AND Height IS BAIXA AND Whole_weight IS MEDIA AND Shucked_weight IS BAIXA AND Viscera_weight IS BAIXA AND Shell_weight IS MEDIA THEN Rings IS MEDIO;
+ 		RULE 39 : IF Sex IS MEDIA AND Length IS MEDIA AND Diameter IS MEDIA AND Height IS BAIXA AND Whole_weight IS MEDIA AND Shucked_weight IS BAIXA AND Viscera_weight IS BAIXA AND Shell_weight IS MEDIA THEN Rings IS MEDIO;
+ 		RULE 40 : IF Sex IS MEDIA AND Length IS MEDIA AND Diameter IS MEDIA AND Height IS BAIXA AND Whole_weight IS MEDIA AND Shucked_weight IS BAIXA AND Viscera_weight IS MEDIA AND Shell_weight IS MEDIA THEN Rings IS ALTO;
+ 		RULE 41 : IF Sex IS MEDIA AND Length IS ALTA AND Diameter IS MEDIA AND Height IS BAIXA AND Whole_weight IS MEDIA AND Shucked_weight IS BAIXA AND Viscera_weight IS MEDIA AND Shell_weight IS MEDIA THEN Rings IS BAIXO;
+ 		RULE 42 : IF Sex IS BAIXA AND Length IS MEDIA AND Diameter IS MEDIA AND Height IS BAIXA AND Whole_weight IS MEDIA AND Shucked_weight IS MEDIA AND Viscera_weight IS MEDIA AND Shell_weight IS BAIXA THEN Rings IS MEDIO;
+ 		RULE 43 : IF Sex IS BAIXA AND Length IS ALTA AND Diameter IS ALTA AND Height IS BAIXA AND Whole_weight IS ALTA AND Shucked_weight IS ALTA AND Viscera_weight IS ALTA AND Shell_weight IS MEDIA THEN Rings IS MEDIO;
+ 		RULE 44 : IF Sex IS BAIXA AND Length IS MEDIA AND Diameter IS BAIXA AND Height IS BAIXA AND Whole_weight IS BAIXA AND Shucked_weight IS BAIXA AND Viscera_weight IS BAIXA AND Shell_weight IS BAIXA THEN Rings IS BAIXO;
+ 		RULE 45 : IF Sex IS ALTA AND Length IS MEDIA AND Diameter IS MEDIA AND Height IS BAIXA AND Whole_weight IS BAIXA AND Shucked_weight IS BAIXA AND Viscera_weight IS BAIXA AND Shell_weight IS MEDIA THEN Rings IS BAIXO;
+ 		RULE 46 : IF Sex IS BAIXA AND Length IS ALTA AND Diameter IS ALTA AND Height IS BAIXA AND Whole_weight IS MEDIA AND Shucked_weight IS MEDIA AND Viscera_weight IS BAIXA AND Shell_weight IS BAIXA THEN Rings IS MEDIO;
+ 		RULE 47 : IF Sex IS ALTA AND Length IS MEDIA AND Diameter IS MEDIA AND Height IS BAIXA AND Whole_weight IS MEDIA AND Shucked_weight IS BAIXA AND Viscera_weight IS MEDIA AND Shell_weight IS BAIXA THEN Rings IS MEDIO;
+ 		RULE 48 : IF Sex IS BAIXA AND Length IS MEDIA AND Diameter IS MEDIA AND Height IS BAIXA AND Whole_weight IS BAIXA AND Shucked_weight IS BAIXA AND Viscera_weight IS MEDIA AND Shell_weight IS BAIXA THEN Rings IS MEDIO;
+ 		RULE 49 : IF Sex IS BAIXA AND Length IS ALTA AND Diameter IS MEDIA AND Height IS BAIXA AND Whole_weight IS MEDIA AND Shucked_weight IS MEDIA AND Viscera_weight IS MEDIA AND Shell_weight IS BAIXA THEN Rings IS MEDIO;
+ 		RULE 50 : IF Sex IS MEDIA AND Length IS ALTA AND Diameter IS MEDIA AND Height IS BAIXA AND Whole_weight IS MEDIA AND Shucked_weight IS MEDIA AND Viscera_weight IS MEDIA AND Shell_weight IS BAIXA THEN Rings IS MEDIO;
+ 		RULE 51 : IF Sex IS ALTA AND Length IS ALTA AND Diameter IS ALTA AND Height IS BAIXA AND Whole_weight IS MEDIA AND Shucked_weight IS MEDIA AND Viscera_weight IS MEDIA AND Shell_weight IS MEDIA THEN Rings IS MEDIO;
+ 		RULE 52 : IF Sex IS ALTA AND Length IS MEDIA AND Diameter IS MEDIA AND Height IS BAIXA AND Whole_weight IS MEDIA AND Shucked_weight IS MEDIA AND Viscera_weight IS MEDIA AND Shell_weight IS BAIXA THEN Rings IS BAIXO;
+ 		RULE 53 : IF Sex IS BAIXA AND Length IS MEDIA AND Diameter IS ALTA AND Height IS BAIXA AND Whole_weight IS MEDIA AND Shucked_weight IS BAIXA AND Viscera_weight IS MEDIA AND Shell_weight IS MEDIA THEN Rings IS MEDIO;
+ 		RULE 54 : IF Sex IS MEDIA AND Length IS ALTA AND Diameter IS ALTA AND Height IS BAIXA AND Whole_weight IS ALTA AND Shucked_weight IS MEDIA AND Viscera_weight IS MEDIA AND Shell_weight IS MEDIA THEN Rings IS MEDIO;
+ 		RULE 55 : IF Sex IS MEDIA AND Length IS MEDIA AND Diameter IS MEDIA AND Height IS BAIXA AND Whole_weight IS BAIXA AND Shucked_weight IS BAIXA AND Viscera_weight IS MEDIA AND Shell_weight IS BAIXA THEN Rings IS MEDIO;
+ 		RULE 56 : IF Sex IS MEDIA AND Length IS ALTA AND Diameter IS ALTA AND Height IS BAIXA AND Whole_weight IS MEDIA AND Shucked_weight IS MEDIA AND Viscera_weight IS MEDIA AND Shell_weight IS ALTA THEN Rings IS MEDIO;
+ 		RULE 57 : IF Sex IS MEDIA AND Length IS ALTA AND Diameter IS ALTA AND Height IS BAIXA AND Whole_weight IS ALTA AND Shucked_weight IS MEDIA AND Viscera_weight IS MEDIA AND Shell_weight IS ALTA THEN Rings IS MEDIO;
+ 		RULE 58 : IF Sex IS ALTA AND Length IS MEDIA AND Diameter IS MEDIA AND Height IS BAIXA AND Whole_weight IS BAIXA AND Shucked_weight IS MEDIA AND Viscera_weight IS BAIXA AND Shell_weight IS BAIXA THEN Rings IS BAIXO;
+ 		RULE 59 : IF Sex IS BAIXA AND Length IS ALTA AND Diameter IS ALTA AND Height IS MEDIA AND Whole_weight IS ALTA AND Shucked_weight IS MEDIA AND Viscera_weight IS MEDIA AND Shell_weight IS MEDIA THEN Rings IS MEDIO;
+ 		RULE 60 : IF Sex IS BAIXA AND Length IS ALTA AND Diameter IS ALTA AND Height IS BAIXA AND Whole_weight IS MEDIA AND Shucked_weight IS MEDIA AND Viscera_weight IS MEDIA AND Shell_weight IS ALTA THEN Rings IS MEDIO;
+ 		RULE 61 : IF Sex IS BAIXA AND Length IS ALTA AND Diameter IS MEDIA AND Height IS BAIXA AND Whole_weight IS MEDIA AND Shucked_weight IS MEDIA AND Viscera_weight IS BAIXA AND Shell_weight IS BAIXA THEN Rings IS BAIXO;
+ 		RULE 62 : IF Sex IS MEDIA AND Length IS ALTA AND Diameter IS ALTA AND Height IS BAIXA AND Whole_weight IS ALTA AND Shucked_weight IS MEDIA AND Viscera_weight IS ALTA AND Shell_weight IS MEDIA THEN Rings IS ALTO;
+ 		RULE 63 : IF Sex IS BAIXA AND Length IS ALTA AND Diameter IS MEDIA AND Height IS BAIXA AND Whole_weight IS MEDIA AND Shucked_weight IS MEDIA AND Viscera_weight IS BAIXA AND Shell_weight IS MEDIA THEN Rings IS MEDIO;
+ 		RULE 64 : IF Sex IS MEDIA AND Length IS MEDIA AND Diameter IS MEDIA AND Height IS BAIXA AND Whole_weight IS BAIXA AND Shucked_weight IS MEDIA AND Viscera_weight IS BAIXA AND Shell_weight IS BAIXA THEN Rings IS BAIXO;
+ 		RULE 65 : IF Sex IS BAIXA AND Length IS ALTA AND Diameter IS ALTA AND Height IS BAIXA AND Whole_weight IS ALTA AND Shucked_weight IS MEDIA AND Viscera_weight IS ALTA AND Shell_weight IS MEDIA THEN Rings IS MEDIO;
+ 		RULE 66 : IF Sex IS BAIXA AND Length IS ALTA AND Diameter IS ALTA AND Height IS BAIXA AND Whole_weight IS ALTA AND Shucked_weight IS ALTA AND Viscera_weight IS MEDIA AND Shell_weight IS ALTA THEN Rings IS MEDIO;
+ 		RULE 67 : IF Sex IS MEDIA AND Length IS MEDIA AND Diameter IS MEDIA AND Height IS ALTA AND Whole_weight IS BAIXA AND Shucked_weight IS BAIXA AND Viscera_weight IS BAIXA AND Shell_weight IS BAIXA THEN Rings IS BAIXO;
+ 		RULE 68 : IF Sex IS MEDIA AND Length IS MEDIA AND Diameter IS BAIXA AND Height IS BAIXA AND Whole_weight IS BAIXA AND Shucked_weight IS BAIXA AND Viscera_weight IS BAIXA AND Shell_weight IS BAIXA THEN Rings IS BAIXO;
+ 		RULE 69 : IF Sex IS BAIXA AND Length IS ALTA AND Diameter IS ALTA AND Height IS BAIXA AND Whole_weight IS MEDIA AND Shucked_weight IS MEDIA AND Viscera_weight IS MEDIA AND Shell_weight IS BAIXA THEN Rings IS MEDIO;
+ 		RULE 70 : IF Sex IS MEDIA AND Length IS ALTA AND Diameter IS ALTA AND Height IS BAIXA AND Whole_weight IS MEDIA AND Shucked_weight IS MEDIA AND Viscera_weight IS MEDIA AND Shell_weight IS BAIXA THEN Rings IS MEDIO;
+ 
+
+
+	END_RULEBLOCK 
+
+END_FUNCTION_BLOCK 
